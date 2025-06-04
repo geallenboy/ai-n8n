@@ -1,0 +1,1276 @@
+{
+  "LocaleSwitcher": {
+    "zh": "Chinese",
+    "en": "English",
+    "label": "Language"
+  },
+  "navigation": {
+    "useCases": "Use Cases",
+    "learning": "Tutorials",
+    "home": "Home",
+    "about": "About",
+    "articles": "Blog",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "adminPanel": "Admin Panel",
+    "signOut": "Sign Out",
+    "contact": "Contact"
+  },
+  "hero": {
+    "badge": "AI-Powered Automation Platform",
+    "title": "AI Automation Starts Here",
+    "subtitle": "Explore the limitless possibilities of n8n. Quickly master workflow automation skills through rich use cases and tutorials, making your work smarter and more efficient.",
+    "exploreUseCases": "Explore Use Cases",
+    "startLearning": "Start Learning",
+    "stats": {
+      "useCases": "Practical Use Cases",
+      "tutorials": "Learning Tutorials",
+      "users": "Active Users"
+    },
+    "features": {
+      "free": "Completely Free to Use",
+      "updated": "Continuously Updated Content",
+      "support": "Professional Community Support"
+    }
+  },
+  "featuredUseCases": {
+    "title": "Featured AI x n8n Use Cases",
+    "subtitle": "Learn how others are leveraging AI and n8n to automate workflows and boost productivity.",
+    "case1": {
+      "title": "AI-Powered Customer Support",
+      "description": "Automate customer inquiries using AI chatbots and intelligent routing systems.",
+      "category": "Customer Service"
+    },
+    "case2": {
+      "title": "Intelligent Content Generation",
+      "description": "Automatically generate blog posts, social media content, and marketing materials.",
+      "category": "Content Marketing"
+    },
+    "case3": {
+      "title": "Smart Data Processing",
+      "description": "Process and analyze large datasets using AI-driven workflows.",
+      "category": "Data Analysis"
+    },
+    "learnMore": "Learn More",
+    "viewAllUseCases": "View All Use Cases"
+  },
+  "featuredArticles": {
+    "title": "Latest Tutorials & Guides",
+    "subtitle": "Get the latest tips, tutorials, and best practices for AI automation.",
+    "article1": {
+      "title": "Getting Started with n8n and OpenAI",
+      "description": "A tutorial on how to integrate OpenAI's GPT models into your n8n workflows.",
+      "category": "Tutorial",
+      "readTime": "5 min read"
+    },
+    "article2": {
+      "title": "Building an AI-Powered Slack Bot",
+      "description": "Create intelligent Slack bots that can answer questions and automate tasks.",
+      "category": "Guide",
+      "readTime": "8 min read"
+    },
+    "article3": {
+      "title": "Advanced Workflow Patterns",
+      "description": "Master complex automation patterns and best practices for enterprise workflows.",
+      "category": "Advanced",
+      "readTime": "12 min read"
+    },
+    "readMore": "Read More",
+    "viewAllArticles": "View All Articles"
+  },
+  "learningCenter": {
+    "title": "Learning Center",
+    "subtitle": "Master AI automation through comprehensive tutorials and hands-on guides.",
+    "module1": {
+      "title": "Introduction to n8n",
+      "description": "Learn the basics of n8n workflow automation and start your first automation project."
+    },
+    "module2": {
+      "title": "AI Integration Fundamentals",
+      "description": "Understand how to integrate AI services like OpenAI, Claude, etc., into your workflows."
+    },
+    "module3": {
+      "title": "Advanced Automation Patterns",
+      "description": "Master complex automation patterns and enterprise-level workflow design."
+    },
+    "lessons": "Lessons",
+    "startLearning": "Start Learning"
+  },
+  "useCases": {
+    "title": "AI x n8n Use Cases",
+    "subtitle": "Explore real-world automation solutions powered by AI and n8n.",
+    "case1": {
+      "title": "AI-Driven Customer Support Automation",
+      "description": "Automate customer inquiries with intelligent chatbots and smart routing systems that understand context and provide personalized responses.",
+      "category": "Customer Service"
+    },
+    "case2": {
+      "title": "Intelligent Content Generation Pipeline",
+      "description": "Automatically generate blog posts, social media content, and marketing materials using AI while maintaining brand consistency.",
+      "category": "Content Marketing"
+    },
+    "case3": {
+      "title": "Smart Data Processing Workflow",
+      "description": "Process and analyze large datasets with AI-driven workflows to extract insights and generate automated reports.",
+      "category": "Data Analysis"
+    },
+    "learnMore": "Learn More",
+    "featured": {
+      "badge": "Featured Use Cases",
+      "title": "Practical Use Cases",
+      "description": "Discover real-world automation examples to quickly apply to your workflows.",
+      "loading": "Loading use cases...",
+      "noDescription": "No description available.",
+      "viewAll": "View All Use Cases",
+      "viewDetails": "View Details",
+      "difficulty": "Difficulty",
+      "category": "Category",
+      "author": "Author",
+      "views": "Views",
+      "recommended": "Recommended"
+    },
+    "page": {
+      "header": {
+        "badge": "Practical Use Cases",
+        "title": "Use Case Library",
+        "description": "Explore a rich collection of n8n automation use cases, from basic to advanced, covering practical applications across various industries.",
+        "features": {
+          "verified": "Verified",
+          "ready": "Ready-to-Use",
+          "updated": "Continuously Updated"
+        }
+      },
+      "stats": {
+        "featured": "Featured Cases",
+        "categories": "Categories",
+        "downloads": "Total Downloads"
+      },
+      "search": {
+        "placeholder": "Search use cases..."
+      },
+      "card": {
+        "recommended": "Recommended",
+        "viewDetails": "View Details"
+      },
+      "empty": {
+        "title": "No relevant use cases found.",
+        "description": "Try adjusting your search criteria or browse other categories.",
+        "reset": "Reset Filters"
+      }
+    },
+    "detail": {
+      "tabs": {
+        "readme": "Details",
+        "interpretation": "Workflow Interpretation",
+        "tutorial": "Tutorial Case",
+        "workflow": "Workflow Preview"
+      },
+      "content": {
+        "chineseDescription": "Chinese Description",
+        "englishDescription": "English Description",
+        "description": "Description",
+        "chineseInterpretation": "Chinese Workflow Interpretation",
+        "englishInterpretation": "English Workflow Interpretation",
+        "interpretation": "Workflow Interpretation",
+        "chineseTutorial": "Chinese Tutorial Case",
+        "englishTutorial": "English Tutorial Case",
+        "tutorial": "Tutorial Case",
+        "chineseWorkflow": "Chinese Workflow Preview",
+        "englishWorkflow": "English Workflow Preview",
+        "workflow": "Workflow Preview",
+        "workflowData": "Workflow JSON Data"
+      },
+      "empty": {
+        "readme": {
+          "title": "No detailed description available.",
+          "description": "Detailed documentation is not yet available for this use case."
+        },
+        "interpretation": {
+          "title": "No workflow interpretation available.",
+          "description": "Workflow interpretation content is not yet available for this use case."
+        },
+        "tutorial": {
+          "title": "No tutorial case available.",
+          "description": "Tutorial case content is not yet available for this use case."
+        },
+        "workflow": {
+          "title": "No workflow data available.",
+          "description": "Workflow JSON data is not yet available for this use case."
+        }
+      },
+      "original": {
+        "title": "Original n8n Use Case",
+        "description": "Click the link below to view the original use case on n8n.io for the latest information and community discussions.",
+        "viewButton": "View Original Case"
+      },
+      "sidebar": {
+        "actions": {
+          "title": "Actions",
+          "download": "Download Workflow"
+        },
+        "stats": {
+          "title": "Statistics",
+          "views": "Views",
+          "downloads": "Downloads",
+          "favorites": "Favorites"
+        },
+        "quickLinks": {
+          "title": "Quick Links",
+          "tutorials": "Learning Tutorials",
+          "moreCases": "More Use Cases"
+        },
+        "related": {
+          "title": "Related",
+          "browseCases": "Browse More Cases",
+          "browseCasesDesc": "Discover more automation solutions.",
+          "learnTutorials": "Learn Tutorials",
+          "learnTutorialsDesc": "Systematically learn n8n knowledge."
+        }
+      }
+    },
+    "filters": {
+      "all": "All Categories"
+    }
+  },
+  "footer": {
+    "description": "A professional n8n automation learning platform, providing systematic learning paths, real-world use cases, and in-depth technical blogs to help you quickly master workflow automation skills.",
+    "email": "Email",
+    "product": {
+      "title": "Product",
+      "useCases": "Use Cases",
+      "learning": "Learning Center",
+      "blogs": "Tech Blog",
+      "dashboard": "Dashboard"
+    },
+    "company": {
+      "title": "Company",
+      "about": "About Us",
+      "contact": "Contact Us",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service"
+    },
+    "copyright": "© {year} AI n8n. All rights reserved.",
+    "madeWith": "Made with",
+    "byTeam": "by AI n8n Team",
+    "links": {
+      "sitemap": "Sitemap",
+      "rss": "RSS Feed",
+      "status": "Service Status"
+    }
+  },
+  "themeConfig": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "app": {
+    "name": "AI Saas",
+    "textPro": "Pro"
+  },
+  "tutorials": {
+    "title": "Interactive Tutorials",
+    "subtitle": "Master n8n and AI automation through hands-on, step-by-step tutorials",
+    "seo": {
+      "title": "n8n Tutorial Center - Learn Workflow Automation",
+      "description": "Master n8n workflow automation through our interactive tutorials. From beginner to advanced, with step-by-step guidance and practical examples to quickly enhance your automation skills.",
+      "image": "/images/tutorials-cover.jpg"
+    },
+    "featured": {
+      "badge": "Featured Tutorials",
+      "title": "Featured Tutorials",
+      "description": "Handpicked tutorials to help you master n8n automation and AI integration.",
+      "minutes": "minutes",
+      "recommended": "Recommended",
+      "startLearning": "Start Learning",
+      "viewAll": "View All"
+    },
+    "tutorial": {
+      "modules": "modules",
+      "overview": "Overview",
+      "sections": "Sections",
+      "resources": "Resources",
+      "comments": "Comments",
+      "relatedTutorials": "Related Tutorials",
+      "prerequisites": "Prerequisites",
+      "learningObjectives": "Learning Objectives",
+      "tools": "Tools Required",
+      "author": "Author",
+      "contributors": "Contributors",
+      "tags": "Tags",
+      "downloadTemplate": "Download Template",
+      "viewSource": "View Source Code",
+      "runCode": "Run Code",
+      "resetCode": "Reset Code",
+      "copyCode": "Copy Code",
+      "markComplete": "Mark as Complete",
+      "content": "Content"
+    },
+    "actions": {
+      "viewAll": "View All",
+      "startTutorial": "Start Tutorial",
+      "continueTutorial": "Continue",
+      "bookmark": "Bookmark",
+      "share": "Share",
+      "like": "Like",
+      "download": "Download Resources",
+      "backToList": "Back to List"
+    },
+    "trending": "Trending Tutorials",
+    "categories": "Categories",
+    "steps": "Steps",
+    "startTutorial": "Start Tutorial",
+    "viewAllTutorials": "View All Tutorials",
+    "difficulty": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    },
+    "features": {
+      "systematic": "Systematic Learning",
+      "practical": "Hands-on Practice",
+      "tracking": "Progress Tracking"
+    },
+    "stats": {
+      "tutorials": "tutorials",
+      "sections": "sections",
+      "averageTime": "minutes average duration",
+      "estimatedTime": "Estimated Time",
+      "difficulty": "Difficulty",
+      "views": "Views",
+      "likes": "Likes",
+      "completions": "Completions",
+      "rating": "Rating",
+      "lastUpdated": "Last Updated"
+    },
+    "filters": {
+      "all": "All Tutorials",
+      "category": "Category",
+      "difficulty": "Difficulty",
+      "duration": "Duration",
+      "features": "Features",
+      "searchPlaceholder": "Search tutorials...",
+      "hasVideo": "Includes Video",
+      "hasCode": "Includes Code",
+      "isInteractive": "Interactive Tutorial",
+      "featured": "Featured",
+      "clear": "Clear Filters"
+    },
+    "duration": {
+      "short": "Short (< 30 min)",
+      "medium": "Medium (30-60 min)",
+      "long": "Long (> 60 min)"
+    },
+    "progress": {
+      "completed": "Completed",
+      "inProgress": "In Progress",
+      "notStarted": "Not Started",
+      "percentComplete": "% Complete",
+      "timeSpent": "Time Spent",
+      "nextStep": "Next Step",
+      "previousStep": "Previous Step",
+      "saveProgress": "Save Progress"
+    },
+    "community": {
+      "askQuestion": "Ask a Question",
+      "postComment": "Post a Comment",
+      "helpful": "Helpful",
+      "reply": "Reply",
+      "solution": "Mark as Solution",
+      "report": "Report",
+      "showReplies": "Show Replies",
+      "hideReplies": "Hide Replies"
+    },
+    "personalization": {
+      "recommendedForYou": "Recommended For You",
+      "basedOnProgress": "Based on Your Progress",
+      "continueWhere": "Continue Where You Left Off",
+      "skillLevel": "Your Skill Level",
+      "learningPath": "Learning Path",
+      "nextInPath": "Next in Path"
+    },
+    "search": {
+      "noResults": "No tutorials found",
+      "noResultsFor": "No tutorials found for \"{term}\"",
+      "tryAdjustFilters": "Please try adjusting your search criteria",
+      "searchSuggestions": "Try searching for:",
+      "popularSearches": "Popular Searches",
+      "filterResults": "Filter Results"
+    },
+    "viewAll": "View All Tutorials"
+  },
+  "login": {
+    "google": "Sign in with Google",
+    "github": "Sign in with Github",
+    "loginForm": {
+      "name": "Login",
+      "title1": "Enter your email below to login to your account",
+      "email": "Email",
+      "password": "Password",
+      "passwordInfo": "Please enter your password",
+      "btn": "Login",
+      "btn1": "Need an account? Sign Up",
+      "btn2": "Forgot password?",
+      "info1": "Logging in...",
+      "info2": "Login successful!",
+      "emailMessage": "Please enter a valid email address!",
+      "passwordMessage": "Password must be at least 8 characters long."
+    },
+    "signUpForm": {
+      "name": "Sign Up",
+      "title1": "Enter your information below to create an account",
+      "email": "Email",
+      "password": "Password",
+      "fullNameMessage": "Your name must be at least 3 characters long.",
+      "emailMessage": "Please enter a valid email address!",
+      "passwordString": "Password is required!",
+      "passwordMin": "Password must be at least 8 characters long.",
+      "passwordRegex": "Password must contain 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.",
+      "confirmPasswordInfo": "Confirm password is required!",
+      "passwordRefine": "Passwords do not match",
+      "info1": "Signing up...",
+      "info2": "Sign up successful! Please confirm your email address.",
+      "fullName": "Full Name",
+      "fullNameInfo": "Please enter your full name",
+      "passwordInfo": "Please enter your password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordEnter": "Please confirm your password",
+      "btn1": "Sign Up",
+      "btn2": "Already have an account? Login",
+      "btn3": "By clicking sign up, you agree to our",
+      "btn4": "Terms of Service",
+      "btn5": "and",
+      "btn6": "Privacy Policy."
+    },
+    "resetPassword": {
+      "name": "Reset Password",
+      "title1": "Enter your email below to reset your password",
+      "email": "Email",
+      "emailMessage": "Please enter a valid email address!",
+      "passwordMessage": "Password must be at least 8 characters long.",
+      "password": "Password",
+      "infoLoading": "Sending password reset email...",
+      "infoSuccess": "Password reset email sent! Please check your email for instructions.",
+      "infoError": "Error sending password reset email.",
+      "btn1": "Reset Password",
+      "btn2": "Back to Login"
+    }
+  },
+  "sidebar": {
+    "name": "Platform",
+    "upgrade": "Upgrade",
+    "settings": "Settings",
+    "billing": "Billing",
+    "logout": "Logout"
+  },
+  "home": {
+    "navigtion": {
+      "name": "Dashboard",
+      "features": "Features",
+      "pricing": "Pricing",
+      "faqs": "FAQs",
+      "aboutMe": "About Me",
+      "github": "Github",
+      "login": "Login",
+      "useCases": "Use Cases",
+      "tutorialsNav": "Tutorials & Guides",
+      "about": "About Us"
+    },
+    "faqs": {
+      "name": "FAQs",
+      "title": "Frequently Asked Questions",
+      "text": "Here are some of the most frequently asked questions about our product."
+    },
+    "features": {
+      "name": "Features",
+      "title": "Unlock Infinite Possibilities with AI",
+      "text": "Our platform offers a variety of features designed to enhance your image creation experience. From easy-to-use editing tools to powerful AI-driven image generation, we have everything you need to bring your ideas to life."
+    },
+    "hero": {
+      "title1": "AI SaaS Template",
+      "title2": "Rapidly Develop Projects with AI SaaS Template",
+      "title3": "Integrations: Payments, Login, Supabase, etc.",
+      "title4": "Loved by 1000+ Customers",
+      "title5": "Create Your First AI Application",
+      "title": "AI + n8n Automated Workflow Solutions",
+      "subtitle": "Explore powerful AI-integrated workflows, from data processing to content generation, and unleash the infinite possibilities of automation.",
+      "cta": {
+        "primary": "Get Started",
+        "secondary": "Watch Demo"
+      }
+    },
+    "price": {
+      "name": "Price",
+      "title1": "Choose the plan that's right for your needs",
+      "title2": "Choose an affordable plan packed with the best features for engaging your audience, building customer loyalty, and driving sales.",
+      "title3": "Monthly",
+      "title4": "Yearly",
+      "title5": "Most Popular",
+      "title6": "Subscribe",
+      "title7": "What's included"
+    },
+    "footer": {
+      "title1": "AI SaaS Company. All rights reserved.",
+      "title2": "Terms of Service",
+      "title3": "Privacy Policy"
+    },
+    "review": {
+      "title1": "User Testimonials",
+      "title2": "What Our Users Say",
+      "title3": "Discover why thousands choose AI for effortless, high-quality photo generation, from avatars to vibrant social media content."
+    },
+    "ready": {
+      "title1": "Ready to Transform Your Photos?",
+      "title2": "Join thousands of users already creating stunning AI-generated images.",
+      "title3": "Create Your First AI Model"
+    },
+    "heroSection": {
+      "title": "Empower Your Workflows with AI & n8n",
+      "subtitle": "Explore powerful automation solutions and learn how to integrate AI into your n8n workflows. From simple tasks to complex business processes.",
+      "exploreUseCases": "Explore Use Cases",
+      "browseContent": "Browse Content Creation"
+    },
+    "useCases": {
+      "title": "Featured AI x n8n Use Cases",
+      "subtitle": "Learn how others are leveraging AI and n8n to automate workflows and boost productivity.",
+      "viewAll": "View All Use Cases"
+    },
+    "articles": {
+      "title": "Latest Tutorials & Guides",
+      "subtitle": "Get the latest tips, tutorials, and AI automation best practices.",
+      "viewAll": "View All Tutorials"
+    },
+    "tutorials": {
+      "title": "Interactive Tutorials",
+      "subtitle": "Master n8n and AI automation through hands-on, step-by-step tutorials.",
+      "featured": {
+        "title": "Featured Tutorials",
+        "description": "Handpicked tutorials to help you master n8n automation and AI integration.",
+        "minutes": "minutes"
+      },
+      "trending": "Trending Tutorials",
+      "categories": "Categories",
+      "steps": "Steps",
+      "startTutorial": "Start Tutorial",
+      "viewAllTutorials": "View All Tutorials",
+      "difficulty": {
+        "beginner": "Beginner",
+        "intermediate": "Intermediate",
+        "advanced": "Advanced"
+      },
+      "filters": {
+        "all": "All Tutorials",
+        "category": "Category",
+        "difficulty": "Difficulty",
+        "duration": "Duration",
+        "features": "Features",
+        "searchPlaceholder": "Search tutorials...",
+        "hasVideo": "Includes Video",
+        "hasCode": "Includes Code",
+        "isInteractive": "Interactive Tutorial",
+        "featured": "Featured",
+        "clear": "Clear Filters"
+      },
+      "duration": {
+        "short": "Short (< 30 min)",
+        "medium": "Medium (30-60 min)",
+        "long": "Long (> 60 min)"
+      },
+      "stats": {
+        "estimatedTime": "Estimated Time",
+        "difficulty": "Difficulty",
+        "views": "Views",
+        "likes": "Likes",
+        "completions": "Completions",
+        "rating": "Rating",
+        "lastUpdated": "Last Updated"
+      },
+      "actions": {
+        "startTutorial": "Start Tutorial",
+        "continueTutorial": "Continue",
+        "bookmark": "Bookmark",
+        "share": "Share",
+        "like": "Like",
+        "download": "Download Resources",
+        "backToList": "Back to List"
+      },
+      "progress": {
+        "completed": "Completed",
+        "inProgress": "In Progress",
+        "notStarted": "Not Started",
+        "percentComplete": "% Complete",
+        "timeSpent": "Time Spent",
+        "nextStep": "Next Step",
+        "previousStep": "Previous Step",
+        "saveProgress": "Save Progress"
+      },
+      "tutorial": {
+        "overview": "Overview",
+        "sections": "Sections",
+        "resources": "Resources",
+        "comments": "Comments",
+        "relatedTutorials": "Related Tutorials",
+        "prerequisites": "Prerequisites",
+        "learningObjectives": "Learning Objectives",
+        "tools": "Tools Required",
+        "author": "Author",
+        "contributors": "Contributors",
+        "tags": "Tags",
+        "downloadTemplate": "Download Template",
+        "viewSource": "View Source Code",
+        "runCode": "Run Code",
+        "resetCode": "Reset Code",
+        "copyCode": "Copy Code",
+        "markComplete": "Mark as Complete",
+        "content": "Content"
+      },
+      "community": {
+        "askQuestion": "Ask a Question",
+        "postComment": "Post a Comment",
+        "helpful": "Helpful",
+        "reply": "Reply",
+        "solution": "Mark as Solution",
+        "report": "Report",
+        "showReplies": "Show Replies",
+        "hideReplies": "Hide Replies"
+      },
+      "personalization": {
+        "recommendedForYou": "Recommended For You",
+        "basedOnProgress": "Based on Your Progress",
+        "continueWhere": "Continue Where You Left Off",
+        "skillLevel": "Your Skill Level",
+        "learningPath": "Learning Path",
+        "nextInPath": "Next in Path"
+      },
+      "search": {
+        "noResults": "No tutorials found.",
+        "searchSuggestions": "Try searching for:",
+        "popularSearches": "Popular Searches",
+        "filterResults": "Filter Results"
+      },
+      "viewAll": "View All Tutorials"
+    },
+    "about": {
+      "title": "About AI & n8n Hub",
+      "subtitle": "Your Gateway to Intelligent Automation",
+      "description": "We are dedicated to helping you harness the power of AI and automation. Our platform offers comprehensive resources, real-world use cases, and step-by-step tutorials to help you build complex workflows that save time and improve efficiency.",
+      "learnMore": "Learn More"
+    },
+    "homepage": {
+      "stats": {
+        "title": "Platform Data Overview",
+        "subtitle": "Real-time updated platform content",
+        "description": "Helping you understand our rich learning resources and active community environment.",
+        "useCases": "Practical Use Cases",
+        "blogs": "Tech Blogs",
+        "tutorials": "Learning Tutorials",
+        "users": "Active Users",
+        "totalCases": "Total {count} Cases",
+        "totalBlogs": "Total {count} Articles",
+        "systemPath": "Systematic Learning Paths",
+        "growing": "Continuously Growing",
+        "quality": "High-Quality Content",
+        "updates": "Regular Updates",
+        "structured": "Structured Content",
+        "growth": "Rapid Growth",
+        "totalWorkflows": "Total Workflows",
+        "aiIntegrations": "AI Integrations",
+        "activeUsers": "Active Users",
+        "automationSaved": "Time Saved by Automation"
+      },
+      "features": {
+        "title": "Why Choose Us",
+        "subtitle": "Professional Automation Solution Provider",
+        "description": "Providing you with a comprehensive n8n automation service experience, a complete learning path from beginner to expert.",
+        "professional": {
+          "title": "Professional Focus",
+          "description": "Focused on the n8n automation field, providing the most professional solutions and technical support to help enterprises achieve digital transformation and upgrades."
+        },
+        "efficient": {
+          "title": "Efficient & Practical",
+          "description": "Provide verified practical use cases and tutorials to quickly improve your automation skills, making learning more efficient and convenient."
+        },
+        "updated": {
+          "title": "Continuously Updated",
+          "description": "Keep up with the development of the n8n community, regularly update content and use cases to ensure you master the latest automation technologies and best practices."
+        }
+      },
+      "cta": {
+        "title": "Ready to Explore the Infinite Possibilities of n8n?",
+        "subtitle": "Start Your Automation Journey",
+        "description": "Join our learning community, explore the infinite possibilities of n8n automation, and make your work smarter, more efficient, and more creative.",
+        "startLearning": "Start Learning",
+        "exploreCases": "Explore Use Cases",
+        "features": {
+          "free": "Completely Free",
+          "professional": "Professional Guidance",
+          "community": "Community Support"
+        },
+        "viewAll": "View All Tutorials"
+      },
+      "tutorials": {
+        "viewAll": "View All Tutorials"
+      }
+    }
+  },
+  "dashboard": {
+    "title": "Welcome Back"
+  },
+  "account": {
+    "title": "Account Settings",
+    "desc": "Manage your account settings and preferences.",
+    "accountForm": {
+      "name": "Profile",
+      "desc": "Update your personal information.",
+      "fullName": "Full Name",
+      "email": "Email",
+      "emailDesc": "Your email address is used for login and communication.",
+      "button": "Update Profile",
+      "infoLoading": "Updating profile...",
+      "successInfo": "Profile updated successfully.",
+      "failedInfo": "Profile update failed."
+    },
+    "changePassword": {
+      "name": "Change Password",
+      "desc": "Enter your new password below to change/update your password.",
+      "password": "Password",
+      "loading1": "Changing password...",
+      "loading2": "Change Password",
+      "passwordDesc": "Please enter a strong password that meets the requirements above.",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordDesc": "Please re-enter your new password to confirm.",
+      "info": "Please make sure to remember your new password or save it securely.",
+      "passwordMessage": "Password must be at least 8 characters long.",
+      "passwordRegex": "Password must contain 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.",
+      "passwordConfirmPassword": "Confirm password is required!",
+      "passwordRefine": "Passwords do not match.",
+      "infoLoading": "Logging in...",
+      "infoSuccess": "Password updated successfully."
+    },
+    "securitySetting": {
+      "name": "Security Settings",
+      "password": "Password",
+      "desc": "Change your password to keep your account secure.",
+      "button": "Change Password",
+      "infoLoading": "Sending password reset email...",
+      "infoSuccess": "Password reset email sent! Please check your email for instructions.",
+      "infoError": "Error sending password reset email."
+    }
+  },
+  "billing": {
+    "title": "Plan & Billing",
+    "desc": "Manage your subscription and billing information.",
+    "planSummarry": {
+      "name": "Plan Overview",
+      "name1": "Price/Month",
+      "name2": "Included Credits",
+      "name3": "Renewal Date",
+      "noPlan": "No Plan",
+      "plan": "Plan",
+      "noInfo1": "Remaining Image Generation Credits",
+      "noInfo2": "0 Remaining",
+      "noInfo3": "Remaining Model Training Credits",
+      "noInfo4": "Please upgrade your plan to continue using the application.",
+      "info1": "Image Generation Credits",
+      "info2": "Model Training Credits"
+    },
+    "pricingSheet": {
+      "name": "Upgrade",
+      "title": "Change Subscription Plan",
+      "desc": "Choose a plan that fits your needs and budget to continue using our services."
+    },
+    "price": {
+      "btn1": "Manage Subscription",
+      "btn2": "Switch Plan",
+      "btn3": "Subscribe",
+      "infoError1": "An unknown error occurred.",
+      "infoError2": "Please try again later or contact us.",
+      "info1": "Redirecting to Stripe portal...",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "selected": "Selected",
+      "mostPopular": "Most Popular"
+    }
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "useCases": "Use Cases",
+    "category": "Category: {category}"
+  },
+  "sharing": {
+    "shareOn": "Share on {platform}",
+    "copyLink": "Copy Link",
+    "linkCopied": "Link copied to clipboard!",
+    "shareVia": "Share via",
+    "twitter": "Twitter",
+    "facebook": "Facebook",
+    "linkedin": "LinkedIn",
+    "email": "Email"
+  },
+  "readingProgress": {
+    "progress": "Reading progress: {percent}%"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Get in Touch with Us",
+    "description": "Have questions or suggestions? We'd love to hear from you and provide you with the best service experience.",
+    "features": {
+      "quickResponse": "Quick Response",
+      "professional": "Professional Service",
+      "support": "Considerate Support"
+    },
+    "methods": {
+      "title": "Multiple Ways to Contact Us",
+      "subtitle": "Choose the contact method that suits you best.",
+      "description": "We offer various convenient contact methods to ensure you can quickly get the help and support you need.",
+      "email": {
+        "title": "Email Us",
+        "description": "We will reply to your email within 24 hours.",
+        "contact": "hello@ai-n8n.com"
+      },
+      "chat": {
+        "title": "Online Support",
+        "description": "Instant response during working hours.",
+        "contact": "Chat Online"
+      },
+      "github": {
+        "title": "GitHub",
+        "description": "Check out our open-source projects.",
+        "contact": "github.com/ai-n8n"
+      },
+      "phone": {
+        "title": "Phone Consultation",
+        "description": "Weekdays 9:00 AM - 6:00 PM",
+        "contact": "+86 400-123-4567"
+      },
+      "contactUs": "Contact Us"
+    },
+    "form": {
+      "title": "Send Us a Message",
+      "description": "Fill out the form below, and we will get back to you as soon as possible.",
+      "name": "Name",
+      "email": "Email",
+      "company": "Company / Organization",
+      "phone": "Phone Number",
+      "subject": "Subject",
+      "message": "Message",
+      "placeholders": {
+        "name": "Please enter your name",
+        "email": "Please enter your email address",
+        "company": "Please enter your company or organization name",
+        "phone": "Please enter your phone number",
+        "subject": "Briefly describe your question or requirement",
+        "message": "Please describe your question, suggestion, or requirement in detail. We will provide the best solution based on your description..."
+      },
+      "privacy": "We promise to protect your privacy and will not share your personal information with third parties.",
+      "send": "Send Message",
+      "required": "Required field"
+    },
+    "office": {
+      "title": "Working Hours",
+      "emergency": "Emergency",
+      "emergencyDesc": "For urgent technical issues, please send an email, and we will prioritize it.",
+      "schedule": {
+        "weekdays": "Monday to Friday",
+        "weekdaysTime": "09:00 - 18:00",
+        "saturday": "Saturday",
+        "saturdayTime": "10:00 - 16:00",
+        "sunday": "Sunday",
+        "sundayTime": "Closed",
+        "holiday": "Public Holidays",
+        "holidayTime": "Closed"
+      }
+    },
+    "address": {
+      "title": "Contact Address",
+      "headquarters": "Headquarters",
+      "address": "15F, AI Building, No. 123 Keyuan Road,\nZhangjiang Hi-Tech Park, Pudong New Area,\nShanghai, China",
+      "zipCode": "Zip Code",
+      "zip": "201203"
+    },
+    "social": {
+      "title": "Follow Us",
+      "description": "Follow our social media for the latest news and technical insights.",
+      "twitter": "Twitter",
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
+      "website": "Official Website"
+    },
+    "faq": {
+      "title": "Looking for answers to common questions?",
+      "description": "Before contacting us, you might find the answer you need in our FAQ section.",
+      "viewFaq": "View FAQ",
+      "helpDocs": "Help Docs"
+    }
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "AI + n8n Automation Platform",
+    "description": "Dedicated to providing Chinese users with the highest quality n8n learning resources and practical use cases.",
+    "features": {
+      "openSource": "Open Source & Free",
+      "community": "Community Driven",
+      "innovation": "Continuous Innovation"
+    },
+    "stats": {
+      "title": "Platform Statistics at a Glance",
+      "description": "Witness our growth journey with the community.",
+      "users": "Registered Users",
+      "useCases": "Automation Use Cases",
+      "tutorials": "Learning Tutorials",
+      "discussions": "Community Discussions"
+    },
+    "coreFeatures": {
+      "badge": "Core Features",
+      "title": "Why Choose Us",
+      "description": "Focused on the n8n automation field, providing the best learning and practical experience for Chinese users.",
+      "automation": {
+        "title": "Efficient Automation",
+        "description": "Easily create complex automation processes with n8n's visual workflow editor to improve work efficiency."
+      },
+      "tutorials": {
+        "title": "Rich Tutorials",
+        "description": "Systematic learning paths from basic introduction to advanced applications help you quickly master automation skills."
+      },
+      "cases": {
+        "title": "Practical Use Cases",
+        "description": "Selected real-world business scenario use cases and out-of-the-box solutions allow you to get started quickly."
+      },
+      "community": {
+        "title": "Active Community",
+        "description": "Exchange experiences with global developers and automation enthusiasts, and jointly explore the infinite possibilities of automation."
+      }
+    },
+    "mission": {
+      "title": "Our Mission",
+      "description": "Enable everyone to easily master automation skills and change the way they work with technology.",
+      "content": "We believe that automation is the future trend of work. By providing high-quality learning resources and practical use cases, we help more people master n8n automation skills, improve work efficiency, and unleash creativity."
+    },
+    "technologies": {
+      "title": "Technology Stack",
+      "description": "Utilizing a modern technology stack to ensure platform stability and user experience.",
+      "nextjs": "Modern React Framework",
+      "typescript": "Type-Safe JavaScript",
+      "tailwind": "Modern CSS Framework",
+      "n8n": "Open-Source Automation Platform",
+      "postgresql": "Reliable Relational Database",
+      "vercel": "High-Performance Deployment Platform"
+    },
+    "team": {
+      "title": "Core Team",
+      "description": "An experienced professional team dedicated to building the best n8n learning platform.",
+      "founder": {
+        "name": "San Zhang",
+        "role": "Founder & CEO",
+        "description": "10 years of experience in the automation field, dedicated to promoting the application of n8n in China."
+      },
+      "cto": {
+        "name": "Si Li",
+        "role": "CTO",
+        "description": "Full-stack development expert, focusing on platform architecture and performance optimization."
+      },
+      "content": {
+        "name": "Wu Wang",
+        "role": "Content Director",
+        "description": "Senior technical writer, responsible for creating tutorial and use case content."
+      }
+    },
+    "timeline": {
+      "title": "Development Journey",
+      "description": "Witness the key milestones of our step-by-step growth.",
+      "2023": {
+        "title": "2023",
+        "event": "Platform Founded",
+        "description": "Team established, began building the platform's basic infrastructure."
+      },
+      "2024q1": {
+        "title": "Q1 2024",
+        "event": "Content Development",
+        "description": "Released the first batch of tutorials and use cases, users exceeded 1,000."
+      },
+      "2024q2": {
+        "title": "Q2 2024",
+        "event": "Community Building",
+        "description": "Established a user communication community, use case library exceeded 100."
+      },
+      "2024q3": {
+        "title": "Q3 2024",
+        "event": "Feature Upgrade",
+        "description": "Launched AI assistant feature to enhance user learning experience."
+      }
+    },
+    "values": {
+      "title": "Core Values",
+      "description": "The core philosophies that guide us forward.",
+      "openness": {
+        "title": "Openness & Sharing",
+        "description": "Embrace the open-source spirit and grow together with the community."
+      },
+      "quality": {
+        "title": "Quality First",
+        "description": "Focus on content quality to provide the best user experience."
+      },
+      "innovation": {
+        "title": "Continuous Innovation",
+        "description": "Keep up with technological developments and continuously optimize product features."
+      },
+      "service": {
+        "title": "User-Centric",
+        "description": "Focus on user needs to provide considerate service."
+      }
+    },
+    "callToAction": {
+      "title": "Join Our Journey",
+      "description": "Explore the infinite possibilities of automation together.",
+      "joinCommunity": "Join Community",
+      "startLearning": "Start Learning",
+      "viewCases": "View Use Cases"
+    }
+  },
+  "blogs": {
+    "title": "Tech Blog",
+    "subtitle": "Explore cutting-edge technical insights, share practical experience and in-depth thoughts.",
+    "featured": {
+      "badge": "Featured Blog",
+      "title": "Latest Articles",
+      "description": "Explore the latest automation trends, tips, and best practices.",
+      "loading": "Loading articles...",
+      "noDescription": "No description available.",
+      "viewAll": "View All Articles",
+      "readMore": "Read More",
+      "author": "Author",
+      "publishedAt": "Published on",
+      "article": "Article",
+      "trending": "Trending",
+      "anonymous": "Anonymous",
+      "recently": "Recently",
+      "minutes": "minutes",
+      "latest": "Latest Articles",
+      "popular": "Popular Articles",
+      "recommended": "Recommended Reading"
+    },
+    "page": {
+      "header": {
+        "badge": "Tech Blog",
+        "title": "Tech Blog Center",
+        "description": "Explore cutting-edge technical insights, share practical experience and in-depth thoughts.",
+        "features": {
+          "fresh": "Fresh Content",
+          "expert": "Expert Written",
+          "community": "Community Driven"
+        }
+      },
+      "stats": {
+        "articles": "Articles",
+        "categories": "Categories",
+        "views": "Reads"
+      },
+      "search": {
+        "placeholder": "Search blog articles..."
+      },
+      "empty": {
+        "title": "No articles found matching your criteria.",
+        "description": "Try adjusting your search criteria or view other categories.",
+        "reset": "Reset Filters"
+      },
+      "card": {
+        "featured": "Featured",
+        "anonymous": "Anonymous Author",
+        "readTime": "min read",
+        "readMore": "Read Full Article"
+      }
+    },
+    "filters": {
+      "all": "All Categories"
+    },
+    "stats": {
+      "totalBlogs": "Featured Articles",
+      "categories": "Technical Categories",
+      "averageRating": "Average Rating",
+      "totalViews": "Total Views"
+    },
+    "search": {
+      "noResults": "No relevant articles found.",
+      "noResultsDescription": "Please try adjusting your search criteria or try again later."
+    },
+    "actions": {
+      "readMore": "Read Full Article",
+      "backToList": "Back to Blog List"
+    },
+    "detail": {
+      "summary": "Article Summary",
+      "originalLink": "Original Link",
+      "viewOriginal": "View Original",
+      "documentationDescription": "Detailed technical implementation and usage instructions.",
+      "tabs": {
+        "content": "Blog Content",
+        "documentation": "Technical Documentation"
+      },
+      "empty": {
+        "content": {
+          "title": "No content available.",
+          "description": "The content for this blog article is currently loading or temporarily unavailable."
+        }
+      },
+      "sidebar": {
+        "info": {
+          "title": "Article Information",
+          "publishedAt": "Published Date",
+          "readTime": "Reading Time",
+          "views": "Views",
+          "favorites": "Favorites"
+        },
+        "author": {
+          "title": "Author Information",
+          "role": "Content Creator"
+        },
+        "quickLinks": {
+          "title": "Quick Navigation",
+          "allBlogs": "All Articles",
+          "useCases": "Use Cases",
+          "tutorials": "Tutorials"
+        }
+      }
+    }
+  },
+  "auth": {
+    "signIn": {
+      "title": "Welcome Back",
+      "subtitle": "Login to your account",
+      "description": "Continue your n8n automation learning journey.",
+      "features": {
+        "secure": "Secure Login",
+        "fast": "Fast Access",
+        "sync": "Data Sync"
+      }
+    },
+    "signUp": {
+      "title": "Start Your Automation Journey",
+      "subtitle": "Create your account",
+      "description": "Join our community and master n8n automation skills.",
+      "benefits": {
+        "learning": "Systematic Learning",
+        "projects": "Practical Projects",
+        "community": "Professional Community",
+        "support": "Technical Support"
+      }
+    }
+  },
+  "search": {
+    "noResults": "No relevant content found."
+  },
+  "filters": {
+    "searchPlaceholder": "Search keywords...",
+    "category": "Category",
+    "allCategories": "All Categories",
+    "difficulty": "Difficulty",
+    "allDifficulties": "All Difficulties",
+    "status": "Status",
+    "allStatuses": "All Statuses",
+    "clearFilters": "Clear Filters",
+    "searchPlaceholders": {
+      "useCases": "Search use case names, descriptions...",
+      "tutorials": "Search tutorial names, content...",
+      "blogs": "Search blog titles, content..."
+    }
+  },
+  "tutorial": {
+    "featured": {
+      "title": "Featured Tutorials",
+      "description": "Learn practical skills in n8n automation and AI integration.",
+      "beginner": "Beginner Tutorials",
+      "intermediate": "Intermediate Tutorials",
+      "advanced": "Advanced Tutorials",
+      "viewAll": "View All Tutorials",
+      "difficulty": "Difficulty",
+      "duration": "Duration",
+      "category": "Category"
+    },
+    "detail": {
+      "sidebar": {
+        "progress": {
+          "title": "Learning Progress",
+          "completed": "Completed",
+          "inProgress": "In Progress",
+          "notStarted": "Not Started"
+        },
+        "info": {
+          "title": "Tutorial Information",
+          "difficulty": "Difficulty Level",
+          "duration": "Estimated Duration",
+          "category": "Tutorial Category",
+          "publishedAt": "Published Date"
+        },
+        "actions": {
+          "title": "Quick Actions",
+          "markComplete": "Mark Complete",
+          "markIncomplete": "Mark Incomplete",
+          "favorite": "Favorite Tutorial",
+          "share": "Share Tutorial"
+        }
+      },
+      "completion": {
+        "button": "Mark as Completed",
+        "completed": "Completed",
+        "congratulations": "Congratulations on completing this tutorial!",
+        "badge": "Completed"
+      }
+    }
+  },
+  "common": {
+    "actions": {
+      "search": "Search",
+      "filter": "Filter",
+      "clear": "Clear",
+      "viewMore": "View More",
+      "loadMore": "Load More",
+      "back": "Back",
+      "share": "Share",
+      "favorite": "Favorite",
+      "download": "Download"
+    },
+    "status": {
+      "loading": "Loading...",
+      "error": "Failed to load.",
+      "empty": "No data available.",
+      "retry": "Retry"
+    },
+    "navigation": {
+      "home": "Home",
+      "useCases": "Use Cases",
+      "tutorials": "Tutorials",
+      "blogs": "Blog",
+      "about": "About"
+    },
+    "search": {
+      "placeholder": "Search content...",
+      "allCategories": "All Categories",
+      "clearFilters": "Clear Filters",
+      "clearSearch": "Clear Search"
+    },
+    "share": {
+      "share": "Share",
+      "wechat": "WeChat",
+      "weibo": "Weibo",
+      "copyLink": "Copy Link",
+      "linkCopied": "Link copied to clipboard",
+      "wechatCopySuccess": "Link copied, you can share it on WeChat",
+      "shareError": "Share failed, please try again"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "view": "View",
+      "save": "Save",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    },
+    "status": {
+      "success": "Operation successful",
+      "error": "Operation failed",
+      "warning": "Warning",
+      "info": "Info"
+    }
+  }
+}

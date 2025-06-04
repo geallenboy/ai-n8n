@@ -1,0 +1,118 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1748321700753,
+      "tag": "0000_minor_sue_storm",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1748321883976,
+      "tag": "0001_remarkable_goblin_queen",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1748356830076,
+      "tag": "0002_first_nekra",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1748356922800,
+      "tag": "0003_cold_sally_floyd",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1748358032776,
+      "tag": "0004_mean_alice",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1748360772287,
+      "tag": "0005_uneven_sue_storm",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1748419926405,
+      "tag": "0006_magenta_bloodscream",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1748444285805,
+      "tag": "0007_foamy_lucky_pierre",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1748444715209,
+      "tag": "0008_right_gunslinger",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1748491153297,
+      "tag": "0009_fat_madame_masque",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1748521328038,
+      "tag": "0010_slippery_steve_rogers",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1748871960460,
+      "tag": "0011_useful_post",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1748873192265,
+      "tag": "0012_overconfident_betty_brant",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1748917880504,
+      "tag": "0013_fast_moonstone",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1748956827131,
+      "tag": "0014_remarkable_shriek",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1749001483508,
+      "tag": "0015_fuzzy_matthew_murdock",
+      "breakpoints": true
+    }
+  ]
+}
