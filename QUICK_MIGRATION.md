@@ -12,7 +12,7 @@
 
 ```bash
 # 使用一键迁移脚本
-pnpm db:migrate-all "postgresql://ain8ndb_owner:npg_J1UE8qHolLxs@ep-green-brook-aa8ekr1z-pooler.westus3.azure.neon.tech/ain8ndb?sslmode=require"
+pnpm db:migrate-all ""
 ```
 
 ### 3️⃣ 验证迁移
