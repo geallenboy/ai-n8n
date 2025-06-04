@@ -1,6 +1,6 @@
-# 🚀 AI N8N Pro - 智能自动化学习平台
+# 🚀 AI N8N  - 智能自动化学习平台
 
-> **AI N8N Pro** 是一个基于 Next.js 15 技术栈构建的现代化 AI 驱动的自动化学习平台，集成了教程、案例、博客、支付、用户管理和 AI 功能。专为快速构建和部署 SaaS 应用而设计。
+> **AI N8N ** 是一个基于 Next.js 15 技术栈构建的现代化 AI 驱动的自动化学习平台，集成了教程、案例、博客、支付、用户管理和 AI 功能。专为快速构建和部署 SaaS 应用而设计。
 
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
@@ -96,8 +96,8 @@
 ### 1. 克隆项目
 
 ```bash
-git clone https://github.com/geallenboy/ai-n8n-pro.git
-cd ai-n8n-pro
+git clone https://github.com/geallenboy/ai-n8n.git
+cd ai-n8n
 ```
 
 ### 2. 安装依赖
@@ -118,7 +118,7 @@ cp .env.example .env.local
 
 ```env
 # 数据库
-DATABASE_URL="postgresql://username:password@localhost:5432/ai-n8n-pro"
+DATABASE_URL="postgresql://username:password@localhost:5432/ai-n8n"
 
 # Clerk 认证
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="pk_test_xxx"
@@ -443,7 +443,7 @@ chore: maintenance tasks
 
 <div align="center">
 
-**🚀 立即开始使用 AI N8N Pro，构建您的下一个 AI 驱动应用！**
+**🚀 立即开始使用 AI N8N，构建您的下一个 AI 驱动应用！**
 
 [📚 查看文档](./TECHNICAL_DOCS.md) | [🎯 在线演示](https://www.aiautomatehub.org) | [💬 获取支持](mailto:gejialun88@gmail.com)
 
