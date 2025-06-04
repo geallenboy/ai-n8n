@@ -180,7 +180,7 @@ Please strictly analyze according to the following 6 dimensions, ensuring conten
 
 Output Format
 Please use standard Markdown format with proper structure. Avoid using complex code blocks or unusual markdown constructs.
-Use simple formatting: headers (#, ##, ###), lists (- or 1.), bold (**text**), and italic (*text*).
+Use simple formatting: headers (##, ###), lists (- or 1.), bold (**text**), and italic (*text*).
 Do not include any greetings, introductions, or closing remarks.
 `
       },
@@ -241,7 +241,7 @@ ${workflowStr}
 
 输出格式
 请使用标准的Markdown格式，结构清晰。避免使用复杂的代码块或异常的markdown结构。
-只使用简单的格式：标题（#、##、###）、列表（- 或 1.）、粗体（**文字**）和斜体（*文字*）。
+只使用简单的格式：标题（##、###）、列表（- 或 1.）、粗体（**文字**）和斜体（*文字*）。
 开头不要有任何开场白、问候语或介绍性文字，结束时不要添加任何总结或询问。
 `
       },
@@ -326,7 +326,7 @@ Content Standards
 
 Output Format
 Please use standard Markdown format with proper structure. Avoid using complex code blocks or unusual markdown constructs.
-Use simple formatting: headers (#, ##, ###), lists (- or 1.), bold (**text**), and italic (*text*).
+Use simple formatting: headers (##, ###), lists (- or 1.), bold (**text**), and italic (*text*).
 Do not include any greetings, introductions, or closing remarks.
 
 Quality Check
@@ -395,7 +395,7 @@ ${workflowStr}`
 
 输出格式
 请使用标准的Markdown格式，结构清晰。避免使用复杂的代码块或异常的markdown结构。
-只使用简单的格式：标题（#、##、###）、列表（- 或 1.）、粗体（**文字**）和斜体（*文字*）。
+只使用简单的格式：标题（##、###）、列表（- 或 1.）、粗体（**文字**）和斜体（*文字*）。
 开头不要有任何开场白、问候语或介绍性文字，结束时不要添加任何总结或询问。
         `
       },

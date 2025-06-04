@@ -284,7 +284,8 @@
       "minutes": "minutes",
       "recommended": "Recommended",
       "startLearning": "Start Learning",
-      "viewAll": "View All"
+      "viewAll": "View All",
+      "loading": "Loading..."
     },
     "tutorial": {
       "modules": "modules",

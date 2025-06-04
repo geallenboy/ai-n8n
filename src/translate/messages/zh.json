@@ -285,7 +285,8 @@
       "minutes": "分钟",
       "recommended": "推荐",
       "startLearning": "开始学习",
-      "viewAll": "查看全部"
+      "viewAll": "查看全部",
+      "loading": "加载中..."
     },
     "tutorial": {
       "modules": "个模块",
