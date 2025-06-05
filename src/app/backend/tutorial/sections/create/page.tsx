@@ -131,7 +131,7 @@ export default function CreateTutorialSectionPage() {
               value={formData.description}
               onChange={(value) => setFormData({ ...formData, description: value })}
               placeholder="请输入板块描述..."
-              height={300}
+              minHeight={300}
             />
           </CardContent>
         </Card>

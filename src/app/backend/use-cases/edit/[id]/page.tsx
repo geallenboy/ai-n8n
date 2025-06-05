@@ -30,6 +30,7 @@ import {
 import { toast } from 'sonner';
 import { AdvancedMarkdownEditor } from '@/features/common';
 import N8nWorkflowPreview from '@/features/common/components/n8n-workflow-preview';
+import CoverImageUpload from '@/components/ui/cover-image-upload';
 
 interface UseCase {
   id: string;
@@ -516,12 +517,12 @@ export default function EditUseCasePage() {
                 />
               </div>
               <div>
-                <Label htmlFor="coverImageUrl">封面图片URL</Label>
-                <Input
-                  id="coverImageUrl"
+                <CoverImageUpload
                   value={formData.coverImageUrl}
-                  onChange={(e) => setFormData({ ...formData, coverImageUrl: e.target.value })}
-                  placeholder="请输入封面图片URL"
+                  onChange={(url) => setFormData({ ...formData, coverImageUrl: url })}
+                  label="封面图片"
+                  description="为案例添加封面图片，支持拖拽上传或URL输入"
+                  placeholder="请输入封面图片URL或上传图片"
                 />
               </div>
             </div>
@@ -578,13 +579,13 @@ export default function EditUseCasePage() {
           <CardContent className="space-y-4">
             <div>
               <Label htmlFor="summaryZh">案例摘要</Label>
-              <Textarea
-                id="summaryZh"
+              <AdvancedMarkdownEditor
+                label="案例摘要"
                 value={formData.summaryZh}
-                onChange={(e) => setFormData({ ...formData, summaryZh: e.target.value })}
-                placeholder="请输入中文摘要（将自动翻译为英文）..."
-                rows={6}
-                className="resize-none"
+                onChange={(value) => setFormData({ ...formData, summaryZh: value })}
+                placeholder="请输入案例摘要（支持Markdown格式）..."
+                minHeight={400}
+                className="w-full"
               />
             </div>
             <div className="flex items-center gap-2">
@@ -626,8 +627,9 @@ export default function EditUseCasePage() {
               label="详细说明"
               value={formData.readmeZh}
               onChange={(value) => setFormData({ ...formData, readmeZh: value })}
-              placeholder="请输入中文详细说明（将自动翻译为英文）..."
-              height={400}
+              placeholder="请输入详细说明（支持Markdown格式）..."
+              minHeight={400}
+              className="w-full"
             />
           </CardContent>
         </Card>
@@ -648,8 +650,9 @@ export default function EditUseCasePage() {
               label="工作流解读"
               value={formData.workflowInterpretationZh}
               onChange={(value) => setFormData({ ...formData, workflowInterpretationZh: value })}
-              placeholder="请输入中文工作流解读（将自动翻译为英文）..."
-              height={400}
+              placeholder="请输入工作流解读（支持Markdown格式）..."
+              minHeight={400}
+              className="w-full"
             />
             <div className="flex items-center gap-2">
               <Button
@@ -690,8 +693,9 @@ export default function EditUseCasePage() {
               label="工作流教程"
               value={formData.workflowTutorialZh}
               onChange={(value) => setFormData({ ...formData, workflowTutorialZh: value })}
-              placeholder="请输入中文工作流教程（将自动翻译为英文）..."
-              height={400}
+              placeholder="请输入工作流教程（支持Markdown格式）..."
+              minHeight={400}
+              className="w-full"
             />
             <div className="flex items-center gap-2">
               <Button

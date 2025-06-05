@@ -32,7 +32,8 @@ import {
   Trash2, 
   ArrowLeft,
   Search,
-  Eye
+  Eye,
+  Loader2
 } from 'lucide-react';
 import { 
   getUseCaseCategories,
@@ -94,6 +95,8 @@ export default function UseCaseCategoriesPage() {
   const router = useRouter();
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+  const [creating, setCreating] = useState(false);
+  const [updating, setUpdating] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -136,6 +139,7 @@ export default function UseCaseCategoriesPage() {
     }
 
     try {
+      setCreating(true);
       // 准备需要翻译的中文字段
       const fieldsToTranslate: Record<string, string> = {};
       if (formData.nameZh) fieldsToTranslate.name = formData.nameZh;
@@ -172,6 +176,8 @@ export default function UseCaseCategoriesPage() {
     } catch (error) {
       console.error('Error creating category:', error);
       toast.error('创建分类失败');
+    } finally {
+      setCreating(false);
     }
   };
 
@@ -199,13 +205,8 @@ export default function UseCaseCategoriesPage() {
       return;
     }
 
-    // 确认保存操作
-    const confirmSave = confirm('确定要保存分类修改吗？系统将自动翻译中文内容为英文。');
-    if (!confirmSave) {
-      return;
-    }
-
     try {
+      setUpdating(true);
       // 准备需要翻译的中文字段
       const fieldsToTranslate: Record<string, string> = {};
       if (formData.nameZh) fieldsToTranslate.name = formData.nameZh;
@@ -235,6 +236,7 @@ export default function UseCaseCategoriesPage() {
         toast.success('分类更新成功');
         setIsEditDialogOpen(false);
         resetForm();
+        setSelectedCategory(null);
         loadCategories();
       } else {
         toast.error(result.error || '更新分类失败');
@@ -242,6 +244,8 @@ export default function UseCaseCategoriesPage() {
     } catch (error) {
       console.error('Error updating category:', error);
       toast.error('更新分类失败');
+    } finally {
+      setUpdating(false);
     }
   };
 
@@ -305,7 +309,7 @@ export default function UseCaseCategoriesPage() {
           </div>
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="flex items-center gap-2">
+              <Button className="flex items-center gap-2" disabled={creating}>
                 <Plus className="h-4 w-4" />
                 添加分类
               </Button>
@@ -339,11 +343,19 @@ export default function UseCaseCategoriesPage() {
                 </div>
               </div>
               <DialogFooter>
-                <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
+                <Button 
+                  variant="outline" 
+                  onClick={() => setIsCreateDialogOpen(false)}
+                  disabled={creating}
+                >
                   取消
                 </Button>
-                <Button onClick={handleCreateCategory}>
-                  创建分类
+                <Button 
+                  onClick={handleCreateCategory}
+                  disabled={creating || !formData.nameZh.trim()}
+                >
+                  {creating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  {creating ? '创建中...' : '创建分类'}
                 </Button>
               </DialogFooter>
             </DialogContent>
@@ -592,11 +604,19 @@ export default function UseCaseCategoriesPage() {
               </div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+              <Button 
+                variant="outline" 
+                onClick={() => setIsEditDialogOpen(false)}
+                disabled={updating}
+              >
                 取消
               </Button>
-              <Button onClick={handleUpdateCategory}>
-                保存更改
+              <Button 
+                onClick={handleUpdateCategory}
+                disabled={updating || !formData.nameZh.trim()}
+              >
+                {updating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {updating ? '保存中...' : '保存更改'}
               </Button>
             </DialogFooter>
           </DialogContent>

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
 import { 
   Table, 
   TableBody, 
@@ -39,27 +40,25 @@ import {
   Edit, 
   Trash2, 
   Eye,
-  Calendar,
-  Tag,
-  ToggleLeft,
-  ToggleRight,
-  Globe,
-  User,
-  FileText,
   CheckCircle,
   Clock,
-  PieChart
+  Upload,
+  Loader2,
+  FolderOpen
 } from 'lucide-react';
 import { 
   getUseCases, 
   deleteUseCase, 
   toggleUseCasePublishStatus,
   getUseCaseCategories,
-  createUseCaseCategory,
   importUseCasesFromJson,
-  getUseCaseStats
+  getUseCaseStats,
+  bulkDeleteUseCases,
+  bulkPublishUseCases,
+  bulkUnpublishUseCases
 } from '@/features/use-cases/actions/usecase-actions';
 import { toast } from 'sonner';
+import {Pagination} from '@/features/common';
 
 interface UseCase {
   id: string;
@@ -92,32 +91,35 @@ interface Category {
   descriptionZh: string | null;
 }
 
+interface UseCaseStats {
+  total: number;
+  published: number;
+  draft: number;
+  byCategory: Record<string, number>;
+}
+
 export default function UseCasesManagePage() {
   const router = useRouter();
   const [useCases, setUseCases] = useState<UseCase[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [stats, setStats] = useState<{ total: number; published: number; draft: number; byCategory: Record<string, number> }>({ 
+  const [stats, setStats] = useState<UseCaseStats>({ 
     total: 0, 
     published: 0, 
     draft: 0, 
     byCategory: {} 
   });
   const [loading, setLoading] = useState(true);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [bulkLoading, setBulkLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [isCategoryDialogOpen, setIsCategoryDialogOpen] = useState(false);
   const [isImportDialogOpen, setIsImportDialogOpen] = useState(false);
   const [importData, setImportData] = useState('');
   const [uploadFiles, setUploadFiles] = useState<File[]>([]);
  
-  const [categoryFormData, setCategoryFormData] = useState({
-    name: '',
-    nameZh: '',
-    description: '',
-    descriptionZh: '',
-  });
 
   useEffect(() => {
     loadUseCases();
@@ -133,6 +135,7 @@ export default function UseCasesManagePage() {
         setUseCases(result.data);
         if (result.pagination) {
           setTotalPages(result.pagination.totalPages);
+          setTotalCount(result.pagination.total || 0);
         }
       } else {
         toast.error('加载案例列表失败');
@@ -164,6 +167,110 @@ export default function UseCasesManagePage() {
       }
     } catch (error) {
       console.error('Error loading stats:', error);
+    }
+  };
+
+  // 批量操作相关函数
+  const handleSelectAll = () => {
+    if (selectedIds.length === useCases.length) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds(useCases.map(useCase => useCase.id));
+    }
+  };
+
+  const handleSelectItem = (id: string) => {
+    setSelectedIds(prev => 
+      prev.includes(id) 
+        ? prev.filter(selectedId => selectedId !== id)
+        : [...prev, id]
+    );
+  };
+
+  const handleBulkPublish = async () => {
+    if (selectedIds.length === 0) {
+      toast.error('请选择要发布的案例');
+      return;
+    }
+
+    if (!confirm(`确定要发布 ${selectedIds.length} 个案例吗？`)) {
+      return;
+    }
+
+    try {
+      setBulkLoading(true);
+      const result = await bulkPublishUseCases(selectedIds);
+      if (result.success) {
+        toast.success(`成功发布 ${selectedIds.length} 个案例`);
+        setSelectedIds([]);
+        loadUseCases();
+        loadStats();
+      } else {
+        toast.error(result.error || '批量发布失败');
+      }
+    } catch (error) {
+      console.error('Error bulk publishing:', error);
+      toast.error('批量发布失败');
+    } finally {
+      setBulkLoading(false);
+    }
+  };
+
+  const handleBulkUnpublish = async () => {
+    if (selectedIds.length === 0) {
+      toast.error('请选择要取消发布的案例');
+      return;
+    }
+
+    if (!confirm(`确定要取消发布 ${selectedIds.length} 个案例吗？`)) {
+      return;
+    }
+
+    try {
+      setBulkLoading(true);
+      const result = await bulkUnpublishUseCases(selectedIds);
+      if (result.success) {
+        toast.success(`成功取消发布 ${selectedIds.length} 个案例`);
+        setSelectedIds([]);
+        loadUseCases();
+        loadStats();
+      } else {
+        toast.error(result.error || '批量取消发布失败');
+      }
+    } catch (error) {
+      console.error('Error bulk unpublishing:', error);
+      toast.error('批量取消发布失败');
+    } finally {
+      setBulkLoading(false);
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (selectedIds.length === 0) {
+      toast.error('请选择要删除的案例');
+      return;
+    }
+
+    if (!confirm(`确定要删除 ${selectedIds.length} 个案例吗？此操作不可撤销。`)) {
+      return;
+    }
+
+    try {
+      setBulkLoading(true);
+      const result = await bulkDeleteUseCases(selectedIds);
+      if (result.success) {
+        toast.success(`成功删除 ${selectedIds.length} 个案例`);
+        setSelectedIds([]);
+        loadUseCases();
+        loadStats();
+      } else {
+        toast.error(result.error || '批量删除失败');
+      }
+    } catch (error) {
+      console.error('Error bulk deleting:', error);
+      toast.error('批量删除失败');
+    } finally {
+      setBulkLoading(false);
     }
   };
 
@@ -295,7 +402,7 @@ export default function UseCasesManagePage() {
             <Dialog open={isImportDialogOpen} onOpenChange={setIsImportDialogOpen}>
               <DialogTrigger asChild>
                 <Button variant="outline" className="flex items-center gap-2">
-                  <FileText className="h-4 w-4" />
+                  <Upload className="h-4 w-4" />
                   批量导入
                 </Button>
               </DialogTrigger>
@@ -320,32 +427,55 @@ export default function UseCasesManagePage() {
                       />
                       <p className="text-xs text-gray-500 mt-1">支持多个JSON文件同时上传</p>
                     </div>
-                    <div className="flex items-center justify-center">
-                      <div className="text-center text-gray-400">
-                        <div className="text-lg font-medium">或</div>
-                        <div className="text-sm">手动输入JSON数据</div>
-                      </div>
+                    <div>
+                      <Label>或者直接粘贴JSON数据</Label>
+                      <Textarea
+                        value={importData}
+                        onChange={(e) => setImportData(e.target.value)}
+                        placeholder='[{"title": "案例标题", "summary": "案例摘要", ...}]'
+                        className="h-32"
+                      />
                     </div>
                   </div>
-        
-        {/* 统计卡片 */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                </div>
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setIsImportDialogOpen(false)}>
+                    取消
+                  </Button>
+                  <Button onClick={handleImportJson} disabled={!importData.trim()}>
+                    导入数据
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+            <Button 
+              onClick={() => router.push('/backend/use-cases/create')}
+              className="flex items-center gap-2"
+            >
+              <Plus className="h-4 w-4" />
+              创建案例
+            </Button>
+          </div>
+        </div>
+
+        {/* 统计信息卡片 */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">总案例数</CardTitle>
-              <FileText className="h-4 w-4 text-muted-foreground" />
+              <Lightbulb className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">{stats.total}</div>
+              <div className="text-2xl font-bold">{stats.total}</div>
               <p className="text-xs text-muted-foreground">
-                系统中的所有案例
+                所有案例总数
               </p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">已发布</CardTitle>
-              <CheckCircle className="h-4 w-4 text-muted-foreground" />
+              <CheckCircle className="h-4 w-4 text-green-600" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-600">{stats.published}</div>
@@ -357,126 +487,108 @@ export default function UseCasesManagePage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">草稿</CardTitle>
-              <Clock className="h-4 w-4 text-muted-foreground" />
+              <Clock className="h-4 w-4 text-orange-600" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-orange-600">{stats.draft}</div>
               <p className="text-xs text-muted-foreground">
-                待发布的案例
+                {stats.total > 0 ? Math.round((stats.draft / stats.total) * 100) : 0}% 待发布
               </p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">分类数</CardTitle>
-              <PieChart className="h-4 w-4 text-muted-foreground" />
+              <FolderOpen className="h-4 w-4 text-blue-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-purple-600">{categories.length}</div>
+              <div className="text-2xl font-bold text-blue-600">{categories.length}</div>
               <p className="text-xs text-muted-foreground">
-                可用分类数量
+                <Button 
+                  variant="link" 
+                  className="p-0 h-auto text-xs"
+                  onClick={() => router.push('/backend/use-cases/categories')}
+                >
+                  管理分类
+                </Button>
               </p>
             </CardContent>
           </Card>
         </div>
-                  <div>
-                    <Label htmlFor="jsonData">JSON数据</Label>
-                    <Textarea
-                      id="jsonData"
-                      value={importData}
-                      onChange={(e) => setImportData(e.target.value)}
-                      placeholder="请输入JSON数据，支持单个对象或对象数组..."
-                      className="min-h-64 font-mono text-sm"
-                    />
-                  </div>
-                  <div className="text-sm text-gray-500">
-                    <p><strong>支持的字段：</strong></p>
-                    <ul className="list-disc list-inside mt-1 space-y-1">
-                      <li><code>title</code> (必需) - 英文标题</li>
-                      <li><code>title_zh</code> - 中文标题</li>
-                      <li><code>url</code> - 原始链接</li>
-                      <li><code>author</code> - 作者</li>
-                      <li><code>publish_date</code> - 发布日期显示</li>
-                      <li><code>publish_date_absolute</code> - 发布日期 (YYYY-MM-DD)</li>
-                      <li><code>categories</code> - 分类数组，格式：数组对象包含name字段</li>
-                      <li><code>workflow_json</code> - 工作流JSON字符串</li>
-                      <li><code>readme</code> - 英文说明</li>
-                      <li><code>readme_zh</code> - 中文说明</li>
-                    </ul>
-                  </div>
-                </div>
-                <DialogFooter>
-                  <Button variant="outline" onClick={() => setIsImportDialogOpen(false)}>
-                    取消
-                  </Button>
-                  <Button onClick={handleImportJson}>
-                    导入数据
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
 
-          
-            
-            <Button 
-              variant="outline"
-              onClick={() => router.push('/backend/use-cases/categories')}
-              className="flex items-center gap-2"
-            >
-              <Tag className="h-4 w-4" />
-              管理分类
-            </Button>
-            
-            <Button 
-              onClick={() => router.push('/backend/use-cases/create')}
-              className="flex items-center gap-2"
-            >
-              <Plus className="h-4 w-4" />
-              添加案例
-            </Button>
+        {/* 搜索和过滤 */}
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-4 flex-1">
+            <div className="relative flex-1 max-w-md">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 text-gray-400 transform -translate-y-1/2" />
+              <Input
+                placeholder="搜索案例标题或摘要..."
+                value={searchTerm}
+                onChange={(e) => handleSearch(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            <Select value={selectedCategory} onValueChange={handleCategoryFilter}>
+              <SelectTrigger className="w-48">
+                <SelectValue placeholder="选择分类" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">所有分类</SelectItem>
+                {categories.map((category) => (
+                  <SelectItem key={category.id} value={category.id}>
+                    {category.nameZh || category.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
+          
+          {/* 批量操作按钮 */}
+          {selectedIds.length > 0 && (
+            <div className="flex items-center gap-2">
+              <Badge variant="secondary" className="mr-2">
+                已选择 {selectedIds.length} 项
+              </Badge>
+              <Button 
+                size="sm" 
+                variant="outline" 
+                onClick={handleBulkPublish}
+                disabled={bulkLoading}
+              >
+                {bulkLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                批量发布
+              </Button>
+              <Button 
+                size="sm" 
+                variant="outline" 
+                onClick={handleBulkUnpublish}
+                disabled={bulkLoading}
+              >
+                {bulkLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                批量取消发布
+              </Button>
+              <Button 
+                size="sm" 
+                variant="destructive" 
+                onClick={handleBulkDelete}
+                disabled={bulkLoading}
+              >
+                {bulkLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                批量删除
+              </Button>
+            </div>
+          )}
         </div>
 
-        {/* Search and Filters */}
+        {/* Cases Table */}
         <Card>
           <CardHeader>
-            <CardTitle>搜索和筛选</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-4">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <Input
-                  placeholder="搜索案例标题或摘要..."
-                  value={searchTerm}
-                  onChange={(e) => handleSearch(e.target.value)}
-                  className="pl-10"
-                />
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>案例列表</CardTitle>
+               
               </div>
-              <Select value={selectedCategory} onValueChange={handleCategoryFilter}>
-                <SelectTrigger className="w-48">
-                  <SelectValue placeholder="选择分类" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">全部分类</SelectItem>
-                  {categories.map((category) => (
-                    <SelectItem key={category.id} value={category.id}>
-                      {category.nameZh || category.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Use Cases Table */}
-        <Card>
-          <CardHeader>
-            <CardTitle>案例列表</CardTitle>
-            <CardDescription>
-              共 {useCases.length} 个案例
-            </CardDescription>
           </CardHeader>
           <CardContent>
             {loading ? (
@@ -487,64 +599,57 @@ export default function UseCasesManagePage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-2/5">案例标题</TableHead>
-                    <TableHead className="w-1/6">作者</TableHead>
-                    <TableHead className="w-1/6">状态</TableHead>
-                    <TableHead className="w-1/6">发布时间</TableHead>
-                    <TableHead className="w-1/6">操作</TableHead>
+                    <TableHead className="w-12">
+                      <Checkbox
+                        checked={selectedIds.length === useCases.length && useCases.length > 0}
+                        onCheckedChange={handleSelectAll}
+                      />
+                    </TableHead>
+                    <TableHead className="w-1/3">标题</TableHead>
+                    <TableHead className="w-1/4">摘要</TableHead>
+                    <TableHead className="w-24">状态</TableHead>
+                    <TableHead className="w-32">发布时间</TableHead>
+                    <TableHead className="w-32">操作</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {useCases.map((useCase) => (
                     <TableRow key={useCase.id}>
                       <TableCell>
-                        <div className="flex items-start gap-3">
-                          {useCase.coverImageUrl && (
-                            <img 
-                              src={useCase.coverImageUrl} 
-                              alt={useCase.title}
-                              className="w-16 h-12 object-cover rounded"
-                            />
-                          )}
-                          <div className="flex-1">
-                            <div className="font-medium text-gray-900 dark:text-gray-100">
-                              {useCase.titleZh || ""}
-                            </div>
-                           
-                          </div>
+                        <Checkbox
+                          checked={selectedIds.includes(useCase.id)}
+                          onCheckedChange={() => handleSelectItem(useCase.id)}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <div className="space-y-1">
+                          <p className="font-medium text-sm">
+                            {useCase.titleZh || '无标题'}
+                          </p>
+                          
                         </div>
                       </TableCell>
                       <TableCell>
-                        {useCase.n8nAuthor ? (
-                          <div className="flex items-center gap-1">
-                            <User className="h-3 w-3 text-gray-400" />
-                            <span className="text-sm">{useCase.n8nAuthor}</span>
-                          </div>
-                        ) : (
-                          <span className="text-gray-400 text-sm">未知</span>
-                        )}
+                        <div className="max-w-xs">
+                          <p className="text-sm text-gray-600 truncate">
+                            {useCase.summaryZh || '无摘要'}
+                          </p>
+                        </div>
                       </TableCell>
                       <TableCell>
-                        <Badge variant={useCase.isPublished ? "default" : "secondary"} className="flex items-center gap-1 w-fit">
-                          {useCase.isPublished ? (
-                            <>
-                              <Eye className="h-3 w-3" />
-                              已发布
-                            </>
-                          ) : (
-                            <>
-                              <Edit className="h-3 w-3" />
-                              草稿
-                            </>
-                          )}
+                        <Badge 
+                          variant={useCase.isPublished ? "default" : "secondary"}
+                          className="cursor-pointer"
+                          onClick={() => handleTogglePublish(useCase.id)}
+                        >
+                          {useCase.isPublished ? '已发布' : '草稿'}
                         </Badge>
                       </TableCell>
                       <TableCell>
-                        <div className="flex items-center gap-1 text-sm text-gray-500">
-                          <Calendar className="h-3 w-3" />
-                          {useCase.publishedAt 
-                            ? new Date(useCase.publishedAt).toLocaleDateString('zh-CN')
-                            : '未发布'
+                        <div className="text-sm text-gray-500">
+                          {useCase.publishedAt ? 
+                            new Date(useCase.publishedAt).toLocaleDateString('zh-CN') : 
+                            '-'
                           }
                         </div>
                       </TableCell>
@@ -561,17 +666,6 @@ export default function UseCasesManagePage() {
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => handleTogglePublish(useCase.id)}
-                          >
-                            {useCase.isPublished ? (
-                              <ToggleLeft className="h-4 w-4" />
-                            ) : (
-                              <ToggleRight className="h-4 w-4" />
-                            )}
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
                             onClick={() => router.push(`/backend/use-cases/edit/${useCase.id}`)}
                             title="编辑案例"
                           >
@@ -582,6 +676,7 @@ export default function UseCasesManagePage() {
                             size="sm"
                             onClick={() => handleDeleteUseCase(useCase.id)}
                             className="text-red-600 hover:text-red-700"
+                            title="删除案例"
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -593,74 +688,29 @@ export default function UseCasesManagePage() {
               </Table>
             )}
 
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="flex items-center justify-between mt-6 pt-4 border-t">
-                <div className="text-sm text-gray-500">
-                  第 {currentPage} 页，共 {totalPages} 页 · 显示 {useCases.length} 个案例
-                </div>
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setCurrentPage(1)}
-                    disabled={currentPage === 1}
-                  >
-                    首页
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                    disabled={currentPage === 1}
-                  >
-                    上一页
-                  </Button>
-                  <div className="flex items-center gap-1">
-                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                      let pageNum;
-                      if (totalPages <= 5) {
-                        pageNum = i + 1;
-                      } else if (currentPage <= 3) {
-                        pageNum = i + 1;
-                      } else if (currentPage >= totalPages - 2) {
-                        pageNum = totalPages - 4 + i;
-                      } else {
-                        pageNum = currentPage - 2 + i;
-                      }
-                      
-                      return (
-                        <Button
-                          key={pageNum}
-                          variant={pageNum === currentPage ? "default" : "outline"}
-                          size="sm"
-                          onClick={() => setCurrentPage(pageNum)}
-                          className="w-8 h-8 p-0"
-                        >
-                          {pageNum}
-                        </Button>
-                      );
-                    })}
-                  </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                    disabled={currentPage === totalPages}
-                  >
-                    下一页
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setCurrentPage(totalPages)}
-                    disabled={currentPage === totalPages}
-                  >
-                    末页
-                  </Button>
-                </div>
+            {!loading && useCases.length === 0 && (
+              <div className="text-center py-8">
+                <Lightbulb className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-gray-900 mb-2">暂无案例</h3>
+                <p className="text-gray-500 mb-4">
+                  {searchTerm || selectedCategory !== 'all' 
+                    ? '没有找到匹配的案例' 
+                    : '还没有创建任何案例'
+                  }
+                </p>
+                <Button onClick={() => router.push('/backend/use-cases/create')}>
+                  <Plus className="h-4 w-4 mr-2" />
+                  创建第一个案例
+                </Button>
               </div>
             )}
+
+            {/* 分页 */}
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
           </CardContent>
         </Card>
       </div>

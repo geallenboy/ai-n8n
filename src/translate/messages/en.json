@@ -129,7 +129,8 @@
       "category": "Category",
       "author": "Author",
       "views": "Views",
-      "recommended": "Recommended"
+      "recommended": "Recommended",
+      "recently": "Recently Added"
     },
     "page": {
       "header": {
@@ -680,6 +681,27 @@
         "activeUsers": "Active Users",
         "automationSaved": "Time Saved by Automation"
       },
+      "welcome": {
+        "badge": "🚀 New Platform",
+        "title": "Welcome to AI & n8n Hub",
+        "description": "Discover the power of intelligent automation. We're building an amazing platform with practical use cases, comprehensive tutorials, and professional guidance to help you master n8n automation.",
+        "startLearning": "Start Learning",
+        "exploreCases": "Explore Use Cases",
+        "features": {
+          "professional": {
+            "title": "Professional Content",
+            "description": "Expert-crafted tutorials and use cases designed to help you master n8n automation from basics to advanced techniques."
+          },
+          "practical": {
+            "title": "Practical Examples",
+            "description": "Real-world automation scenarios and proven solutions that you can implement immediately in your workflow."
+          },
+          "community": {
+            "title": "Growing Community",
+            "description": "Join a vibrant community of automation enthusiasts sharing knowledge, tips, and best practices."
+          }
+        }
+      },
       "features": {
         "title": "Why Choose Us",
         "subtitle": "Professional Automation Solution Provider",
@@ -828,7 +850,7 @@
       "email": {
         "title": "Email Us",
         "description": "We will reply to your email within 24 hours.",
-        "contact": "hello@ai-n8n.com"
+        "contact": "gejialun88@gmail.com"
       },
       "chat": {
         "title": "Online Support",
@@ -838,7 +860,7 @@
       "github": {
         "title": "GitHub",
         "description": "Check out our open-source projects.",
-        "contact": "github.com/ai-n8n"
+        "contact": "github.com/geallenboy/ai-n8n"
       },
       "phone": {
         "title": "Phone Consultation",
@@ -1258,20 +1280,6 @@
       "linkCopied": "Link copied to clipboard",
       "wechatCopySuccess": "Link copied, you can share it on WeChat",
       "shareError": "Share failed, please try again"
-    },
-    "actions": {
-      "edit": "Edit",
-      "delete": "Delete",
-      "view": "View",
-      "save": "Save",
-      "cancel": "Cancel",
-      "confirm": "Confirm"
-    },
-    "status": {
-      "success": "Operation successful",
-      "error": "Operation failed",
-      "warning": "Warning",
-      "info": "Info"
     }
   }
 }

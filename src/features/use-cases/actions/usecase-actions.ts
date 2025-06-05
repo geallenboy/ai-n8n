@@ -608,4 +608,75 @@ export async function importUseCasesFromJson(jsonData: string) {
     console.error('Error importing use cases from JSON:', error);
     return { success: false, error: 'JSON导入失败' };
   }
+}
+
+// 批量操作函数
+export async function bulkPublishUseCases(useCaseIds: string[]) {
+  try {
+    if (useCaseIds.length === 0) {
+      return { success: false, error: 'No use cases selected' };
+    }
+
+    const [updated] = await db.update(useCases)
+      .set({ 
+        isPublished: true, 
+        publishedAt: new Date(),
+        updatedAt: new Date() 
+      })
+      .where(inArray(useCases.id, useCaseIds))
+      .returning({ id: useCases.id });
+
+    revalidatePath('/admin/use-cases');
+    revalidatePath('/use-cases');
+    return { success: true, data: { updatedCount: useCaseIds.length } };
+  } catch (error) {
+    console.error('Error bulk publishing use cases:', error);
+    return { success: false, error: 'Failed to bulk publish use cases' };
+  }
+}
+
+export async function bulkUnpublishUseCases(useCaseIds: string[]) {
+  try {
+    if (useCaseIds.length === 0) {
+      return { success: false, error: 'No use cases selected' };
+    }
+
+    await db.update(useCases)
+      .set({ 
+        isPublished: false, 
+        publishedAt: null,
+        updatedAt: new Date() 
+      })
+      .where(inArray(useCases.id, useCaseIds));
+
+    revalidatePath('/admin/use-cases');
+    revalidatePath('/use-cases');
+    return { success: true, data: { updatedCount: useCaseIds.length } };
+  } catch (error) {
+    console.error('Error bulk unpublishing use cases:', error);
+    return { success: false, error: 'Failed to bulk unpublish use cases' };
+  }
+}
+
+export async function bulkDeleteUseCases(useCaseIds: string[]) {
+  try {
+    if (useCaseIds.length === 0) {
+      return { success: false, error: 'No use cases selected' };
+    }
+
+    // 先删除关联的分类链接
+    await db.delete(useCaseToCategoryLinks)
+      .where(inArray(useCaseToCategoryLinks.useCaseId, useCaseIds));
+
+    // 然后删除案例
+    await db.delete(useCases)
+      .where(inArray(useCases.id, useCaseIds));
+
+    revalidatePath('/admin/use-cases');
+    revalidatePath('/use-cases');
+    return { success: true, data: { deletedCount: useCaseIds.length } };
+  } catch (error) {
+    console.error('Error bulk deleting use cases:', error);
+    return { success: false, error: 'Failed to bulk delete use cases' };
+  }
 } 

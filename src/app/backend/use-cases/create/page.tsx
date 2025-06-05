@@ -14,6 +14,7 @@ import { createUseCase } from '@/features/use-cases/actions/usecase-actions';
 import { toast } from 'sonner';
 import { AdvancedMarkdownEditor } from '@/features/common';
 import N8nWorkflowPreview from '@/features/common/components/n8n-workflow-preview';
+import CoverImageUpload from '@/components/ui/cover-image-upload';
 
 // 翻译函数：通过API调用
 const translateFieldsToEnglish = async (fields: Record<string, string>): Promise<Record<string, string>> => {
@@ -197,12 +198,12 @@ export default function CreateUseCasePage() {
                 />
               </div>
               <div>
-                <Label htmlFor="coverImageUrl">封面图片URL（可选）</Label>
-                <Input
-                  id="coverImageUrl"
+                <CoverImageUpload
                   value={formData.coverImageUrl}
-                  onChange={(e) => setFormData({ ...formData, coverImageUrl: e.target.value })}
-                  placeholder="请输入封面图片URL"
+                  onChange={(url) => setFormData({ ...formData, coverImageUrl: url })}
+                  label="封面图片"
+                  description="为案例添加封面图片，支持拖拽上传或URL输入"
+                  placeholder="请输入封面图片URL或上传图片"
                 />
               </div>
             </div>
@@ -245,7 +246,7 @@ export default function CreateUseCasePage() {
               value={formData.summaryZh}
               onChange={(value) => setFormData({ ...formData, summaryZh: value })}
               placeholder="请输入中文摘要（将自动翻译为英文）..."
-              height={300}
+              minHeight={300}
             />
           </CardContent>
         </Card>
@@ -267,7 +268,7 @@ export default function CreateUseCasePage() {
               value={formData.readmeZh}
               onChange={(value) => setFormData({ ...formData, readmeZh: value })}
               placeholder="请输入中文详细说明（将自动翻译为英文）..."
-              height={400}
+              minHeight={400}
             />
           </CardContent>
         </Card>
@@ -289,7 +290,7 @@ export default function CreateUseCasePage() {
               value={formData.workflowInterpretationZh}
               onChange={(value) => setFormData({ ...formData, workflowInterpretationZh: value })}
               placeholder="请输入中文工作流解读（将自动翻译为英文）..."
-              height={400}
+              minHeight={400}
             />
           </CardContent>
         </Card>
@@ -311,7 +312,7 @@ export default function CreateUseCasePage() {
               value={formData.workflowTutorialZh}
               onChange={(value) => setFormData({ ...formData, workflowTutorialZh: value })}
               placeholder="请输入中文工作流教程（将自动翻译为英文）..."
-              height={400}
+              minHeight={400}
             />
           </CardContent>
         </Card>

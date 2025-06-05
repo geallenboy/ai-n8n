@@ -1,6 +1,6 @@
 'use client';
 
-import React, { forwardRef, useImperativeHandle, useRef, useEffect } from 'react';
+import React, { forwardRef, useImperativeHandle, useRef, useEffect, useCallback, useState } from 'react';
 import { 
   MDXEditor, 
   type MDXEditorMethods,
@@ -33,422 +33,565 @@ import {
   markdownShortcutPlugin
 } from '@mdxeditor/editor';
 import '@mdxeditor/editor/style.css';
+
+// CodeMirror 语言支持
+import { javascript } from '@codemirror/lang-javascript';
+import { css } from '@codemirror/lang-css';
+import { html } from '@codemirror/lang-html';
+import { json } from '@codemirror/lang-json';
+import { markdown } from '@codemirror/lang-markdown';
+import { python } from '@codemirror/lang-python';
+import { sql } from '@codemirror/lang-sql';
+import { xml } from '@codemirror/lang-xml';
+import { yaml } from '@codemirror/lang-yaml';
+
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Maximize2, Minimize2, FileDown, FileUp } from 'lucide-react';
-import { useState } from 'react';
-
-interface AdvancedMarkdownEditorProps {
-  value: string;
-  onChange: (value: string) => void;
-  label?: string;
-  placeholder?: string;
-  height?: number;
-  className?: string;
-  required?: boolean;
-  readOnly?: boolean;
-}
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { 
+  AlertCircle, 
+  Loader2, 
+  Eye, 
+  Edit3, 
+  FileText, 
+  Palette,
+  Upload,
+  Image as ImageIcon,
+  Sun,
+  Moon,
+  Monitor
+} from 'lucide-react';
+import { useTheme } from 'next-themes';
+import { toast } from 'sonner';
+import ImageUploadDialog from '@/components/ui/image-upload-dialog';
 
 export interface AdvancedMarkdownEditorRef {
   getMarkdown: () => string;
-  setMarkdown: (value: string) => void;
+  setMarkdown: (markdown: string) => void;
   focus: () => void;
+  insertText: (text: string) => void;
+}
+
+interface AdvancedMarkdownEditorProps {
+  value?: string;
+  onChange?: (value: string) => void;
+  placeholder?: string;
+  label?: string;
+  error?: string;
+  disabled?: boolean;
+  className?: string;
+  minHeight?: number;
+  maxHeight?: number;
+  showPreview?: boolean;
+  showWordCount?: boolean;
+  showCharacterCount?: boolean;
+  autoFocus?: boolean;
+  readOnly?: boolean;
 }
 
 const AdvancedMarkdownEditor = forwardRef<AdvancedMarkdownEditorRef, AdvancedMarkdownEditorProps>(
   ({
-    value,
+    value = '',
     onChange,
+    placeholder = '开始编写您的内容...',
     label,
-    placeholder = '开始编写...',
-    height = 600,
+    error,
+    disabled = false,
     className = '',
-    required = false,
+    minHeight = 300,
+    maxHeight = 600,
+    showPreview = true,
+    showWordCount = true,
+    showCharacterCount = true,
+    autoFocus = false,
     readOnly = false
   }, ref) => {
     const editorRef = useRef<MDXEditorMethods>(null);
-    const [isFullscreen, setIsFullscreen] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    const [isInitialized, setIsInitialized] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [isReady, setIsReady] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [currentValue, setCurrentValue] = useState(value);
+    const [activeTab, setActiveTab] = useState<'edit' | 'preview'>('edit');
+    const [wordCount, setWordCount] = useState(0);
+    const [characterCount, setCharacterCount] = useState(0);
+    const [isImageDialogOpen, setIsImageDialogOpen] = useState(false);
+    const { theme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
 
-    // 创建一个简单的hash函数用于生成稳定的key
-    const hashString = (str: string) => {
-      let hash = 0;
-      for (let i = 0; i < str.length; i++) {
-        const char = str.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash; // Convert to 32bit integer
-      }
-      return hash.toString();
-    };
-
-    // 清理和验证markdown内容
-    const sanitizeMarkdown = (content: string): string => {
-      if (!content) return '';
-      
-      // 移除可能导致解析问题的字符
-      let cleaned = content
-        .replace(/\r\n/g, '\n') // 统一换行符
-        .replace(/\r/g, '\n')   // 统一换行符
-        .replace(/\u0000/g, '') // 移除null字符
-        .replace(/\ufffd/g, '') // 移除替换字符
-        .trim();
-
-      // 确保代码块格式正确
-      cleaned = cleaned.replace(/```(\w*)\n/g, (match, lang) => {
-        // 如果语言标识包含无效字符，清理它
-        const cleanLang = lang ? lang.replace(/[^a-zA-Z0-9\-_]/g, '') : '';
-        return '```' + cleanLang + '\n';
-      });
-
-      return cleaned;
-    };
-
-    // 当value变化时，强制更新编辑器内容
+    // 等待组件挂载
     useEffect(() => {
-      if (editorRef.current && value !== undefined && isInitialized) {
-        try {
-          const currentMarkdown = editorRef.current.getMarkdown();
-          const sanitizedValue = sanitizeMarkdown(value);
-          
-          if (currentMarkdown !== sanitizedValue) {
-            editorRef.current.setMarkdown(sanitizedValue);
-          }
-          setError(null);
-        } catch (err) {
-          console.error('Error updating markdown:', err);
-          setError('更新内容时出错：' + (err instanceof Error ? err.message : '未知错误'));
-        }
-      }
-    }, [value, isInitialized]);
+      setMounted(true);
+    }, []);
 
+    // 计算字数和字符数
+    const updateCounts = useCallback((text: string) => {
+      const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+      setWordCount(words.length);
+      setCharacterCount(text.length);
+    }, []);
+
+    // 处理内容变化
+    const handleChange = useCallback((newValue: string) => {
+      setCurrentValue(newValue);
+      updateCounts(newValue);
+      onChange?.(newValue);
+    }, [onChange, updateCounts]);
+
+    // 暴露给父组件的方法
     useImperativeHandle(ref, () => ({
       getMarkdown: () => {
-        try {
-          return editorRef.current?.getMarkdown() || '';
-        } catch (err) {
-          console.error('Error getting markdown:', err);
-          return '';
-        }
+        return editorRef.current?.getMarkdown() || currentValue;
       },
-      setMarkdown: (value: string) => {
-        try {
-          const sanitizedValue = sanitizeMarkdown(value);
-          editorRef.current?.setMarkdown(sanitizedValue);
-          setError(null);
-        } catch (err) {
-          console.error('Error setting markdown:', err);
-          setError('设置markdown内容时出错：' + (err instanceof Error ? err.message : '未知错误'));
+      setMarkdown: (markdown: string) => {
+        if (editorRef.current) {
+          editorRef.current.setMarkdown(markdown);
         }
+        setCurrentValue(markdown);
+        updateCounts(markdown);
       },
       focus: () => {
-        try {
-          editorRef.current?.focus();
-        } catch (err) {
-          console.error('Error focusing editor:', err);
-        }
+        editorRef.current?.focus();
       },
-    }));
-
-    const toggleFullscreen = () => {
-      setIsFullscreen(!isFullscreen);
-    };
-
-    const exportMarkdown = () => {
-      try {
-        const markdown = editorRef.current?.getMarkdown() || '';
-        const blob = new Blob([markdown], { type: 'text/markdown' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'document.md';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      } catch (err) {
-        console.error('Error exporting markdown:', err);
-        setError('导出失败：' + (err instanceof Error ? err.message : '未知错误'));
-      }
-    };
-
-    const importMarkdown = () => {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = '.md,.markdown,.txt';
-      input.onchange = (e) => {
-        const file = (e.target as HTMLInputElement).files?.[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            try {
-              const content = e.target?.result as string;
-              const sanitizedContent = sanitizeMarkdown(content);
-              onChange(sanitizedContent);
-              if (editorRef.current) {
-                editorRef.current.setMarkdown(sanitizedContent);
-              }
-              setError(null);
-            } catch (err) {
-              console.error('Error importing markdown:', err);
-              setError('导入的文件包含无效的markdown格式：' + (err instanceof Error ? err.message : '未知错误'));
-            }
-          };
-          reader.readAsText(file);
+      insertText: (text: string) => {
+        if (editorRef.current) {
+          editorRef.current.insertMarkdown(text);
         }
-      };
-      input.click();
-    };
-
-    const handleChange = (newValue: string) => {
-      try {
-        const sanitizedValue = sanitizeMarkdown(newValue);
-        onChange(sanitizedValue);
-        setError(null);
-      } catch (err) {
-        console.error('Error changing markdown:', err);
-        setError('内容包含无效的markdown格式：' + (err instanceof Error ? err.message : '未知错误'));
       }
-    };
+    }), [currentValue, updateCounts]);
 
-    const handleEditorError = (error: any) => {
-      console.error('MDXEditor error:', error);
+    // 初始化编辑器
+    useEffect(() => {
+      if (!mounted) return;
+
+      const timer = setTimeout(() => {
+        setIsReady(true);
+        setIsLoading(false);
+        
+        if (value !== currentValue) {
+          setCurrentValue(value);
+          updateCounts(value);
+        }
+      }, 100);
+
+      return () => clearTimeout(timer);
+    }, [mounted, value, currentValue, updateCounts]);
+
+    // 处理图片插入
+    const handleImageSelect = useCallback((imageData: { url: string; alt: string; title?: string }) => {
+      const imageMarkdown = imageData.title 
+        ? `![${imageData.alt}](${imageData.url} "${imageData.title}")`
+        : `![${imageData.alt}](${imageData.url})`;
       
-      // 详细记录错误信息
-      if (error && typeof error === 'object') {
-        console.error('Error details:', {
-          message: error.message,
-          stack: error.stack,
-          name: error.name,
-          type: typeof error,
-          ...(error.cause && { cause: error.cause })
-        });
-      }
-      
-      // 检查是否是markdown解析错误
-      if (error && error.message && error.message.includes('markdown structure failed')) {
-        setError(`Markdown解析错误: 检测到无效的代码块结构。请尝试在源代码模式下修复格式问题。`);
+      if (editorRef.current) {
+        editorRef.current.insertMarkdown(imageMarkdown);
       } else {
-        setError('编辑器错误：' + (error instanceof Error ? error.message : '未知错误'));
+        const newValue = currentValue + '\n' + imageMarkdown;
+        handleChange(newValue);
       }
+    }, [currentValue, handleChange]);
+
+    // 主题切换按钮
+    const ThemeToggle = () => {
+      if (!mounted) return null;
+      
+      return (
+        <div className="flex items-center gap-1 border rounded-md p-1">
+          <Button
+            variant={theme === 'light' ? 'default' : 'ghost'}
+            size="sm"
+            onClick={() => setTheme('light')}
+            className="h-7 w-7 p-0"
+          >
+            <Sun className="h-3 w-3" />
+          </Button>
+          <Button
+            variant={theme === 'dark' ? 'default' : 'ghost'}
+            size="sm"
+            onClick={() => setTheme('dark')}
+            className="h-7 w-7 p-0"
+          >
+            <Moon className="h-3 w-3" />
+          </Button>
+          <Button
+            variant={theme === 'system' ? 'default' : 'ghost'}
+            size="sm"
+            onClick={() => setTheme('system')}
+            className="h-7 w-7 p-0"
+          >
+            <Monitor className="h-3 w-3" />
+          </Button>
+        </div>
+      );
     };
 
-    // 添加更严格的markdown验证
-    const validateMarkdown = (content: string): { isValid: boolean; error?: string } => {
-      if (!content) return { isValid: true };
-      
-      try {
-        // 检查代码块是否正确闭合
-        const codeBlocks = content.match(/```/g);
-        if (codeBlocks && codeBlocks.length % 2 !== 0) {
-          return { isValid: false, error: '代码块未正确闭合' };
-        }
-        
-        // 检查是否有无效字符
-        if (content.includes('\u0000') || content.includes('\ufffd')) {
-          return { isValid: false, error: '包含无效字符' };
-        }
-        
-        return { isValid: true };
-      } catch (err) {
-        return { isValid: false, error: '内容验证失败' };
+    // 渲染预览内容
+    const renderPreview = () => {
+      if (!currentValue.trim()) {
+        return (
+          <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400">
+            <div className="text-center">
+              <FileText className="h-12 w-12 mx-auto mb-4 opacity-50" />
+              <p>预览将在这里显示</p>
+              <p className="text-sm">在编辑器中输入内容以查看预览</p>
+            </div>
+          </div>
+        );
       }
+
+      // 简单的Markdown预览渲染
+      const htmlContent = currentValue
+        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+        .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
+        .replace(/\*(.*)\*/gim, '<em>$1</em>')
+        .replace(/!\[([^\]]*)\]\(([^)]*)\)/gim, '<img alt="$1" src="$2" class="max-w-full h-auto rounded-lg" />')
+        .replace(/\[([^\]]*)\]\(([^)]*)\)/gim, '<a href="$2" class="text-blue-600 dark:text-blue-400 hover:underline">$1</a>')
+        .replace(/\n/gim, '<br />');
+
+      return (
+        <div 
+          className="prose prose-sm dark:prose-invert max-w-none p-4"
+          dangerouslySetInnerHTML={{ __html: htmlContent }}
+        />
+      );
     };
+
+    if (!mounted) {
+      return (
+        <div className="flex items-center justify-center h-64">
+          <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
+      );
+    }
 
     return (
-      <div className={`space-y-2 ${className}`}>
+      <div className={`space-y-4 ${className}`}>
         {label && (
           <div className="flex items-center justify-between">
-            <Label className="text-sm font-medium">
-              {label}
-              {required && <span className="text-red-500 ml-1">*</span>}
-            </Label>
+            <Label className="text-base font-medium">{label}</Label>
             <div className="flex items-center gap-2">
+              
               <Button
-                type="button"
                 variant="outline"
                 size="sm"
-                onClick={importMarkdown}
-                className="h-7 px-2 text-xs"
+                onClick={() => setIsImageDialogOpen(true)}
+                disabled={disabled || readOnly}
               >
-                <FileUp className="h-3 w-3 mr-1" />
-                导入
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={exportMarkdown}
-                className="h-7 px-2 text-xs"
-              >
-                <FileDown className="h-3 w-3 mr-1" />
-                导出
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={toggleFullscreen}
-                className="h-7 px-2"
-              >
-                {isFullscreen ? (
-                  <Minimize2 className="h-3 w-3" />
-                ) : (
-                  <Maximize2 className="h-3 w-3" />
-                )}
+                <ImageIcon className="h-4 w-4 mr-2" />
+                插入图片
               </Button>
             </div>
           </div>
         )}
-        
-        {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-md text-sm">
-            <div className="flex items-start justify-between">
-              <div className="flex-1 mr-2">
-                <strong>错误:</strong> {error}
+
+        <Card className="overflow-y-auto border-2 focus-within:border-blue-500 dark:focus-within:border-blue-400 transition-colors">
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Palette className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                <CardTitle className="text-sm font-medium">Markdown 编辑器</CardTitle>
+                {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
               </div>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={() => setError(null)}
-                className="h-auto p-0 text-red-700 hover:text-red-900 flex-shrink-0"
-              >
-                关闭
-              </Button>
+              
+              {showPreview && (
+                <Tabs value={activeTab} onValueChange={(tab) => setActiveTab(tab as 'edit' | 'preview')}>
+                  <TabsList className="h-8">
+                    <TabsTrigger value="edit" className="text-xs h-6 px-3">
+                      <Edit3 className="h-3 w-3 mr-1" />
+                      编辑
+                    </TabsTrigger>
+                    <TabsTrigger value="preview" className="text-xs h-6 px-3">
+                      <Eye className="h-3 w-3 mr-1" />
+                      预览
+                    </TabsTrigger>
+                  </TabsList>
+                </Tabs>
+              )}
             </div>
-            <div className="mt-2 text-xs text-red-600">
-              提示：可以尝试切换到源代码模式修复错误，然后切换回富文本模式。
-            </div>
-          </div>
-        )}
-        
-        <div 
-          className={`border rounded-lg overflow-hidden transition-all duration-200 ${
-            isFullscreen 
-              ? 'fixed inset-4 z-50 bg-white shadow-2xl' 
-              : 'relative'
-          }`}
-          style={{ 
-            height: isFullscreen ? 'calc(100vh - 2rem)' : height 
-          }}
-        >
-          <div className="h-full overflow-auto">
-            <MDXEditor
-              key={`mdx-editor-${hashString(value || '')}-${isInitialized ? 'init' : 'not-init'}`}
-              ref={(instance) => {
-                if (instance && !isInitialized) {
-                  setIsInitialized(true);
-                  console.log('MDXEditor initialized successfully');
-                }
-                // @ts-ignore
-                editorRef.current = instance;
+          </CardHeader>
+
+          <CardContent className="p-0">
+            <div 
+              ref={containerRef}
+              className="relative"
+              style={{ 
+                minHeight: `${minHeight}px`,
+                maxHeight: `${maxHeight}px`
               }}
-              markdown={sanitizeMarkdown(value || '')}
-              onChange={(newValue) => {
-                console.log('MDXEditor onChange called with:', newValue?.substring(0, 100) + '...');
-                
-                // 在更改前验证内容
-                const validation = validateMarkdown(newValue);
-                if (!validation.isValid) {
-                  console.warn('Markdown validation failed:', validation.error);
-                  setError(`内容验证失败: ${validation.error}`);
-                  return;
-                }
-                
-                handleChange(newValue);
-              }}
-              placeholder={placeholder}
-              readOnly={readOnly}
-              contentEditableClassName="prose prose-lg dark:prose-invert max-w-none p-4 min-h-full"
-              suppressHtmlProcessing={true}
-              onError={handleEditorError}
-              plugins={[
-                // 工具栏插件
-                toolbarPlugin({
-                  toolbarContents: () => (
-                    <>
-                      <UndoRedo />
-                      <Separator />
-                      <BoldItalicUnderlineToggles />
-                      <CodeToggle />
-                      <Separator />
-                      <BlockTypeSelect />
-                      <Separator />
-                      <CreateLink />
-                      <InsertImage />
-                      <Separator />
-                      <ListsToggle />
-                      <Separator />
-                      <InsertTable />
-                      <InsertThematicBreak />
-                      <Separator />
-                      <InsertCodeBlock />
-                      <ConditionalContents
-                        options={[
-                          {
-                            when: (editor) => editor?.editorType === 'codeblock',
-                            contents: () => <ChangeCodeMirrorLanguage />
-                          }
+            >
+              {activeTab === 'edit' ? (
+                <div className="h-full">
+                  {isReady ? (
+                    <div className="markdown-editor-container">
+                      <MDXEditor
+                        ref={editorRef}
+                        markdown={currentValue}
+                        onChange={handleChange}
+                        placeholder={placeholder}
+                        readOnly={readOnly || disabled}
+                        className={`
+                          h-full min-h-[${minHeight}px] max-h-[${maxHeight}px]
+                          ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
+                          ${error ? 'border-red-500 dark:border-red-400' : ''}
+                        `}
+                        plugins={[
+                          toolbarPlugin({
+                            toolbarContents: () => (
+                              <div className="flex items-center gap-1 flex-wrap">
+                                <UndoRedo />
+                                <Separator />
+                                <BoldItalicUnderlineToggles />
+                                <Separator />
+                                <BlockTypeSelect />
+                                <Separator />
+                                <CreateLink />
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => setIsImageDialogOpen(true)}
+                                  className="h-8 px-2"
+                                  disabled={disabled || readOnly}
+                                >
+                                  <ImageIcon className="h-4 w-4" />
+                                </Button>
+                                <Separator />
+                                <ListsToggle />
+                                <Separator />
+                                <InsertTable />
+                                <InsertThematicBreak />
+                                <Separator />
+                                <CodeToggle />
+                                <ConditionalContents
+                                  options={[
+                                    {
+                                      when: (editor) => editor?.editorType === 'codeblock',
+                                      contents: () => <ChangeCodeMirrorLanguage />
+                                    },
+                                    {
+                                      fallback: () => (
+                                        <div className="flex items-center gap-1">
+                                          <InsertCodeBlock />
+                                        </div>
+                                      )
+                                    }
+                                  ]}
+                                />
+                              </div>
+                            )
+                          }),
+                          listsPlugin(),
+                          quotePlugin(),
+                          headingsPlugin(),
+                          linkPlugin(),
+                          linkDialogPlugin(),
+                          imagePlugin({
+                            imageAutocompleteSuggestions: [],
+                            imageUploadHandler: undefined, // 禁用默认上传，使用自定义
+                            imagePreviewHandler: (imageSource) => Promise.resolve(imageSource)
+                          }),
+                          tablePlugin(),
+                          thematicBreakPlugin(),
+                          frontmatterPlugin(),
+                          codeBlockPlugin({ 
+                            defaultCodeBlockLanguage: 'javascript'
+                          }),
+                          codeMirrorPlugin({ 
+                            codeBlockLanguages: {
+                              'javascript': 'JavaScript',
+                              'js': 'JavaScript', 
+                              'typescript': 'TypeScript',
+                              'ts': 'TypeScript',
+                              'tsx': 'TypeScript React',
+                              'jsx': 'JavaScript React',
+                              'css': 'CSS',
+                              'html': 'HTML',
+                              'json': 'JSON',
+                              'markdown': 'Markdown',
+                              'md': 'Markdown',
+                              'bash': 'Bash',
+                              'sh': 'Shell',
+                              'python': 'Python',
+                              'py': 'Python',
+                              'sql': 'SQL',
+                              'yaml': 'YAML',
+                              'yml': 'YAML',
+                              'xml': 'XML',
+                              'text': 'Plain Text',
+                              '': 'Plain Text'
+                            },
+                            codeMirrorExtensions: [
+                              javascript(),
+                              css(),
+                              html(),
+                              json(),
+                              markdown(),
+                              python(),
+                              sql(),
+                              xml(),
+                              yaml()
+                            ]
+                          }),
+                          diffSourcePlugin(),
+                          markdownShortcutPlugin()
                         ]}
+                        contentEditableClassName="prose prose-sm dark:prose-invert max-w-none p-4 focus:outline-none min-h-full"
                       />
-                    </>
-                  )
-                }),
-                // 核心功能插件 - 简化配置减少错误
-                listsPlugin(),
-                quotePlugin(),
-                headingsPlugin({ allowedHeadingLevels: [1, 2, 3, 4, 5, 6] }),
-                linkPlugin(),
-                linkDialogPlugin(),
-                imagePlugin({
-                  imageAutocompleteSuggestions: []
-                }),
-                tablePlugin(),
-                thematicBreakPlugin(),
-                frontmatterPlugin(),
-                codeBlockPlugin({ 
-                  defaultCodeBlockLanguage: '',
-                  codeBlockEditorDescriptors: []
-                }),
-                codeMirrorPlugin({ 
-                  codeBlockLanguages: {
-                    '': 'Plain text',
-                    javascript: 'JavaScript',
-                    js: 'JavaScript',
-                    typescript: 'TypeScript',
-                    ts: 'TypeScript',
-                    css: 'CSS',
-                    html: 'HTML',
-                    json: 'JSON',
-                    sql: 'SQL',
-                    python: 'Python',
-                    bash: 'Bash',
-                    yaml: 'YAML',
-                    markdown: 'Markdown',
-                    xml: 'XML',
-                    php: 'PHP',
-                    java: 'Java'
-                  } 
-                }),
-                // 移除可能导致问题的高级插件
-                diffSourcePlugin({
-                  viewMode: 'rich-text',
-                  diffMarkdown: ''
-                }),
-                markdownShortcutPlugin()
-              ]}
-              className="min-h-full"
-            />
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center h-full">
+                      <div className="text-center">
+                        <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          正在加载编辑器...
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div 
+                  className="h-full overflow-y-auto bg-white dark:bg-gray-900 border-l"
+                  style={{ 
+                    minHeight: `${minHeight}px`,
+                    maxHeight: `${maxHeight}px`
+                  }}
+                >
+                  {renderPreview()}
+                </div>
+              )}
+            </div>
+          </CardContent>
+
+          {/* 底部状态栏 */}
+          <div className="border-t bg-gray-50 dark:bg-gray-800 px-4 py-2">
+            <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+              <div className="flex items-center gap-4">
+                {showWordCount && (
+                  <Badge variant="secondary" className="text-xs">
+                    {wordCount} 词
+                  </Badge>
+                )}
+                {showCharacterCount && (
+                  <Badge variant="secondary" className="text-xs">
+                    {characterCount} 字符
+                  </Badge>
+                )}
+                {activeTab === 'edit' && (
+                  <span className="text-xs">
+                    支持 Markdown 语法 • 
+                    <kbd className="mx-1 px-1 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-xs">Ctrl+Z</kbd> 撤销 • 
+                    <kbd className="mx-1 px-1 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-xs">Ctrl+Y</kbd> 重做
+                  </span>
+                )}
+              </div>
+              
+              <div className="flex items-center gap-2">
+                {error && (
+                  <div className="flex items-center gap-1 text-red-500 dark:text-red-400">
+                    <AlertCircle className="h-3 w-3" />
+                    <span className="text-xs">{error}</span>
+                  </div>
+                )}
+                <span className="text-xs">
+                  {activeTab === 'edit' ? '编辑模式' : '预览模式'}
+                </span>
+              </div>
+            </div>
           </div>
-        </div>
-        
-        {isFullscreen && (
-          <div 
-            className="fixed inset-0 bg-black bg-opacity-50 z-40"
-            onClick={toggleFullscreen}
-          />
-        )}
+        </Card>
+
+        {/* 图片上传对话框 */}
+        <ImageUploadDialog
+          isOpen={isImageDialogOpen}
+          onClose={() => setIsImageDialogOpen(false)}
+          onImageSelect={handleImageSelect}
+          title="插入图片"
+          description="上传图片到 Cloudflare 或通过 URL 添加图片"
+        />
+
+        <style jsx global>{`
+          .markdown-editor-container .mdxeditor {
+            background: transparent !important;
+            border: none !important;
+          }
+          
+          .markdown-editor-container .mdxeditor-toolbar {
+            background: rgb(249 250 251) !important;
+            border-bottom: 1px solid rgb(229 231 235) !important;
+          }
+          
+          .dark .markdown-editor-container .mdxeditor-toolbar {
+            background: rgb(31 41 55) !important;
+            border-bottom: 1px solid rgb(75 85 99) !important;
+          }
+          
+          .markdown-editor-container .mdxeditor-toolbar button {
+            color: rgb(75 85 99) !important;
+          }
+          
+          .dark .markdown-editor-container .mdxeditor-toolbar button {
+            color: rgb(156 163 175) !important;
+          }
+          
+          .markdown-editor-container .mdxeditor-toolbar button:hover {
+            background: rgb(243 244 246) !important;
+            color: rgb(17 24 39) !important;
+          }
+          
+          .dark .markdown-editor-container .mdxeditor-toolbar button:hover {
+            background: rgb(55 65 81) !important;
+            color: rgb(243 244 246) !important;
+          }
+          
+          .markdown-editor-container .mdxeditor-toolbar button[data-state="on"] {
+            background: rgb(59 130 246) !important;
+            color: white !important;
+          }
+          
+          .markdown-editor-container .mdxeditor-rich-text-editor {
+            background: white !important;
+            color: rgb(17 24 39) !important;
+          }
+          
+          .dark .markdown-editor-container .mdxeditor-rich-text-editor {
+            background: rgb(17 24 39) !important;
+            color: rgb(243 244 246) !important;
+          }
+          
+          .markdown-editor-container .mdxeditor-rich-text-editor:focus {
+            outline: none !important;
+            box-shadow: none !important;
+          }
+          
+          .markdown-editor-container .cm-editor {
+            background: white !important;
+            color: rgb(17 24 39) !important;
+          }
+          
+          .dark .markdown-editor-container .cm-editor {
+            background: rgb(17 24 39) !important;
+            color: rgb(243 244 246) !important;
+          }
+          
+          .markdown-editor-container .cm-focused {
+            outline: none !important;
+          }
+          
+          .markdown-editor-container .mdxeditor-popup-container {
+            background: white !important;
+            border: 1px solid rgb(229 231 235) !important;
+            border-radius: 0.5rem !important;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1) !important;
+          }
+          
+          .dark .markdown-editor-container .mdxeditor-popup-container {
+            background: rgb(31 41 55) !important;
+            border: 1px solid rgb(75 85 99) !important;
+          }
+        `}</style>
       </div>
     );
   }

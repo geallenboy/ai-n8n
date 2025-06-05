@@ -13,6 +13,7 @@ import { createBlog, getBlogCategories } from '@/features/blogs/actions/blog-act
 import { BlogCategoryType } from '@/features/blogs/types';
 import { AdvancedMarkdownEditor } from '@/features/common';
 import { toast } from 'sonner';
+import CoverImageUpload from '@/components/ui/cover-image-upload';
 
 // 翻译函数：通过API调用
 const translateFieldsToEnglish = async (fields: Record<string, string>): Promise<Record<string, string>> => {
@@ -69,6 +70,7 @@ export default function CreateBlogPage() {
     readmeZh: '',
     crawledAt: '',
     categoryId: 'none',
+    coverImageUrl: '',
   });
 
   useEffect(() => {
@@ -213,12 +215,12 @@ export default function CreateBlogPage() {
               />
             </div>
             <div>
-              <Label htmlFor="thumbnail">缩略图URL</Label>
-              <Input
-                id="thumbnail"
-                value={formData.thumbnail}
-                onChange={(e) => setFormData({ ...formData, thumbnail: e.target.value })}
-                placeholder="https://example.com/image.jpg"
+              <CoverImageUpload
+                value={formData.coverImageUrl || formData.thumbnail || ''}
+                onChange={(url) => setFormData({ ...formData, coverImageUrl: url, thumbnail: url })}
+                label="封面图片"
+                description="为博客添加封面图片，支持拖拽上传或URL输入"
+                placeholder="请输入封面图片URL或上传图片"
               />
             </div>
           </div>
@@ -299,7 +301,8 @@ export default function CreateBlogPage() {
             value={formData.readmeZh}
             onChange={(value) => setFormData({ ...formData, readmeZh: value })}
             placeholder="请输入博客内容（支持Markdown格式）..."
-            height={500}
+            minHeight={500}
+            className="w-full"
           />
         </CardContent>
       </Card>

@@ -423,7 +423,7 @@ export default function TutorialModuleEditPage() {
             value={formData.descriptionZh}
             onChange={(value) => setFormData({ ...formData, descriptionZh: value })}
             placeholder="请输入模块描述..."
-            height={200}
+            minHeight={200}
           />
         </CardContent>
       </Card>
@@ -442,7 +442,7 @@ export default function TutorialModuleEditPage() {
             value={formData.contentZh}
             onChange={(value) => setFormData({ ...formData, contentZh: value })}
             placeholder="请输入模块内容..."
-            height={500}
+            minHeight={500}
           />
         </CardContent>
       </Card>

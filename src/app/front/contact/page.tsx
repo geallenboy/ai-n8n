@@ -11,8 +11,6 @@ import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { 
   Mail, 
-  Phone, 
-  MapPin, 
   Clock,
   Send,
   MessageCircle,
@@ -47,7 +45,7 @@ export default function ContactPage() {
       title: t('methods.email.title'),
       description: t('methods.email.description'),
       contact: t('methods.email.contact'),
-      action: 'gejialun88@gmail.com',
+      action: 'mailto:gejialun88@gmail.com',
       color: 'from-blue-500 to-blue-600'
     },
     {
@@ -171,13 +169,13 @@ export default function ContactPage() {
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="heading-lg mb-4">{t('methods.title')}</h2>
+           
             <p className="subHeading text-muted-foreground max-w-2xl mx-auto">
               {t('methods.description')}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {contactMethods.map((method, index) => {
               const IconComponent = method.icon;
               return (

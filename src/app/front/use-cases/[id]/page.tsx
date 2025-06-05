@@ -29,7 +29,8 @@ export default async function UseCaseDetailPage({ params }: PageProps) {
   const seoKeywords = [
     'n8n案例',
     'n8n工作流',
-    useCase.titleZh || useCase.title,
+    useCase.titleZh || '',
+    useCase.title || '',
     '自动化案例',
     'API集成案例',
     '工作流模板',

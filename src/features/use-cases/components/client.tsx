@@ -21,10 +21,8 @@ import {
   FileText,
   BookOpen,
   Lightbulb,
-  Sparkles,
   Bookmark,
   ArrowLeft,
-  Globe,
   Play,
   Settings,
   Lock
@@ -247,7 +245,6 @@ export function UseCaseDetailClient({
                       </div>
                     </div>
                   )}
-                  
                 </div>
 
                 {/* 统计信息卡片 - 参考博客详情页面样式 */}
@@ -268,31 +265,17 @@ export function UseCaseDetailClient({
                     <div className="text-xs text-muted-foreground">{locale === 'zh' ? '次下载' : 'downloads'}</div>
                   </div>
                 </div>
-                <div className="">
+                <div >
                   {/* 工作流可视化预览 */}
                   <N8nWorkflowPreview 
                       workflowJson={getDisplayWorkflowJson()}
-                      className=""
+                     
                     />
                 </div>
 
-                {/* 案例摘要卡片 */}
-                {getDisplaySummary() && (
-                  <Card className="mb-8 mt-8 bg-gradient-to-r from-blue-50/50 to-purple-50/50 dark:from-blue-900/20 dark:to-purple-900/20 border-primary/10">
-                    <CardContent className="p-6">
-                      <h2 className="text-lg font-semibold mb-3 text-foreground flex items-center">
-                        <Sparkles className="h-5 w-5 mr-2 text-primary" />
-                        {locale === 'zh' ? '案例概述' : 'Case Overview'}
-                      </h2>
-                      <p className="text-muted-foreground leading-relaxed text-lg">
-                        {getDisplaySummary()}
-                      </p>
-                    </CardContent>
-                  </Card>
-                )}
-
+               
                  {/* Tab美化展示的详细内容 */}
-            <Card className="card-enhanced">
+            <Card className="card-enhanced mt-8">
               <CardContent className="p-0">
                 <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                   <div className="border-b border-border/50 px-6 pt-6">

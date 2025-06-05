@@ -24,6 +24,7 @@ import { getBlogById, updateBlog, getBlogCategories } from '@/features/blogs/act
 import { BlogCategoryType } from '@/features/blogs/types';
 import { AdvancedMarkdownEditor } from '@/features/common';
 import { toast } from 'sonner';
+import CoverImageUpload from '@/components/ui/cover-image-upload';
 
 interface Blog {
   id: string;
@@ -105,6 +106,7 @@ export default function BlogEditPage() {
     readmeZh: '',
     crawledAt: '',
     categoryId: 'none',
+    coverImageUrl: '',
   });
 
   useEffect(() => {
@@ -131,6 +133,7 @@ export default function BlogEditPage() {
           readmeZh: blogData.readmeZh || '',
           crawledAt: blogData.crawledAt ? new Date(blogData.crawledAt).toISOString().slice(0, 16) : '',
           categoryId: blogData.categoryId || 'none',
+          coverImageUrl: blogData.coverImageUrl || '',
         });
       } else {
         toast.error(result.error || '加载博客失败');
@@ -204,6 +207,7 @@ export default function BlogEditPage() {
         readmeZh: formData.readmeZh,
         crawledAt: formData.crawledAt ? new Date(formData.crawledAt) : undefined,
         categoryId: formData.categoryId === 'none' ? undefined : formData.categoryId,
+        coverImageUrl: formData.coverImageUrl || '',
       };
 
       const result = await updateBlog(blog.id, updateData);
@@ -315,12 +319,12 @@ export default function BlogEditPage() {
               />
             </div>
             <div>
-              <Label htmlFor="thumbnail">缩略图URL</Label>
-              <Input
-                id="thumbnail"
-                value={formData.thumbnail}
-                onChange={(e) => setFormData({ ...formData, thumbnail: e.target.value })}
-                placeholder="https://example.com/image.jpg"
+              <CoverImageUpload
+                value={formData.coverImageUrl || formData.thumbnail || ''}
+                onChange={(url) => setFormData({ ...formData, coverImageUrl: url, thumbnail: url })}
+                label="封面图片"
+                description="为博客添加封面图片，支持拖拽上传或URL输入"
+                placeholder="请输入封面图片URL或上传图片"
               />
             </div>
           </div>
@@ -401,7 +405,7 @@ export default function BlogEditPage() {
               value={formData.readmeZh}
               onChange={(value) => setFormData({ ...formData, readmeZh: value })}
               placeholder="请输入博客内容（支持Markdown格式）..."
-              height={600}
+              minHeight={600}
               className="w-full"
             />
           </div>

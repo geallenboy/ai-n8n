@@ -309,11 +309,12 @@ export default function CreateTutorialModulePage() {
           </CardHeader>
           <CardContent>
             <AdvancedMarkdownEditor
-              label="模块描述"
+              label="教程描述"
               value={formData.description}
               onChange={(value) => setFormData({ ...formData, description: value })}
-              placeholder="请输入模块描述..."
-              height={200}
+              placeholder="请输入教程描述（支持Markdown格式）..."
+              minHeight={200}
+              className="w-full"
             />
           </CardContent>
         </Card>
@@ -328,11 +329,12 @@ export default function CreateTutorialModulePage() {
           </CardHeader>
           <CardContent>
             <AdvancedMarkdownEditor
-              label="模块内容"
+              label="教程内容"
               value={formData.content}
               onChange={(value) => setFormData({ ...formData, content: value })}
-              placeholder="请输入模块内容..."
-              height={500}
+              placeholder="请输入教程内容（支持Markdown格式）..."
+              minHeight={500}
+              className="w-full"
             />
           </CardContent>
         </Card>

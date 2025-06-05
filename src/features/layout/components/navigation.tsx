@@ -95,7 +95,7 @@ export default function Navigation() {
     { href: '/front/tutorial', label: t('learning'), active: pathname.startsWith('/front/tutorial') },
     { href: '/front/use-cases', label: t('useCases'), active: pathname.startsWith('/front/use-cases') },
     { href: '/front/blogs', label: t('articles'), active: pathname.startsWith('/front/blogs') },
-    { href: '/front/about', label: t('about'), active: pathname.startsWith('/front/about') },
+    // { href: '/front/about', label: t('about'), active: pathname.startsWith('/front/about') },
     { href: '/front/contact', label: t('contact'), active: pathname.startsWith('/front/contact') },
   ];
 

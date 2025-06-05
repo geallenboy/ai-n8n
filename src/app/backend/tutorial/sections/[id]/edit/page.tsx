@@ -225,21 +225,23 @@ export default function EditTutorialSectionPage() {
           <div>
             <Label>英文描述</Label>
             <AdvancedMarkdownEditor
-              label=""
+              label="板块描述"
               value={formData.description}
               onChange={(value) => setFormData({ ...formData, description: value })}
-              placeholder="Please enter English description (Markdown supported)..."
-              height={200}
+              placeholder="请输入板块描述（支持Markdown格式）..."
+              minHeight={200}
+              className="w-full"
             />
           </div>
           <div>
             <Label>中文描述</Label>
             <AdvancedMarkdownEditor
-              label=""
+              label="板块内容"
               value={formData.descriptionZh}
               onChange={(value) => setFormData({ ...formData, descriptionZh: value })}
-              placeholder="请输入中文描述（支持Markdown格式）..."
-              height={200}
+              placeholder="请输入板块内容（支持Markdown格式）..."
+              minHeight={200}
+              className="w-full"
             />
           </div>
         </CardContent>

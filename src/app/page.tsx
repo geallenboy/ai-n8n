@@ -73,20 +73,13 @@ export default function HomePage() {
     <main className="min-h-screen">
         <Navigation />
         <HeroSection />
-        {
-          loading? <div className="flex items-center justify-center h-screen">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
-            <p className="mt-4 text-muted-foreground">Loading...</p>
-          </div>
-         </div>:<Content 
+        <Content 
             locale={locale}
             stats={data.stats}
             useCases={data.useCases}
             tutorials={data.tutorials}
             blogs={data.blogs}
         />
-        }
         
         <Footer />
     </main>
